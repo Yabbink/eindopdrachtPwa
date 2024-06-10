@@ -1,0 +1,266 @@
+:root{
+    --mdc-theme-primary: #ff0004;
+    --mdc-theme-background: #2e2e2e;
+}
+body{
+    margin: 0px;
+    background-color: var(--mdc-theme-background);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body.active{
+    overflow-y: hidden;
+}
+.mdc-top-app-bar{
+    background-color: var(--mdc-theme-primary);
+}
+.mdc-list-item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.mdc-list-item:nth-child(1){
+    margin-top: 0px;
+}
+.mdc-list-item{
+    margin-top: 16px;
+}
+.mdc-list-item span{
+    padding-left: 10px;
+}
+.mdc-image-list--masonry{
+    column-count: 2;
+}
+.mdc-image-list__item{
+    margin-bottom: 1em;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+main .my-image-list{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+main .my-image-list .mdc-image-list__item{
+    width: 45%;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.mdc-image-list__item .mdc-image-list__image{
+    width: 80px;
+    height: auto;
+    object-fit: cover;
+}
+.mdc-image-list__item .mdc-image-list__paragraph{
+    color: black;
+}
+.hidden{
+    display: none !important;
+}
+.sheet {
+    position: absolute; 
+    top: 0;
+    width: 100vw;
+    margin-left: 0;
+    background-color: var(--mdc-theme-background); 
+    transition: 0.3s ease;
+}
+.relative{
+    position: relative;
+}
+.sheet-out-of-view {
+    margin-left: -100%;
+}
+.main {
+    height: 100%;
+    overflow-y: auto;
+}
+.mdc-tab{
+    background-color: white;
+}
+.mdc-tab .mdc-tab__text-label{
+    color: red;
+}
+#leagueField{
+    width: 50%;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 20px;
+    padding-left: 10px;
+}
+#leagueField{
+    outline: 0px solid black;
+}
+#leagueSearch{
+    width: 30%;
+    height: 40px;
+    color: white;
+    background-color: #ff0004;
+    border-radius: 5px;
+    border: 1px solid #ff0004;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.main .standings-table{
+    width: 90%;
+    margin: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+.standings-table tr th, .standings-table tr td{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    border-bottom: 1px solid white;
+}
+.standings-table thead tr th{
+    text-align: left;
+}
+.standings-table tr th:nth-child(1), .standings-table tr td:nth-child(1){
+    padding-left: 10px;
+}
+.standings-table tr th:nth-child(2), .standings-table tr td:nth-child(2){
+    padding-left: 10px;
+}
+.team-info{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.team-info p{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.team-info img{
+    width: 40px;
+}
+.statistieken{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.statistieken .goals{
+    order: 1;
+}
+.statistieken .assists{
+    order: 2;
+}
+.statistieken .yellow{
+    order: 3;
+}
+.statistieken .red{
+    order: 4;
+}
+.statistieken .stats{
+    width: 100%;
+}
+.statistieken .stats h2{
+    text-align: center;
+}
+.table-item{
+    width: 90%;
+    margin: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+.table-item tr td:first-child{
+    padding-left: 10px;
+}
+.table-item tr td{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    border-bottom: 1px solid white;
+}
+.table-item .player-info{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.table-item .player-info img{
+    width: 40px;
+    height: 40px;
+}
+.uitslagen{
+    width: 90%;
+}
+.speelronde{
+    width: 100%;
+    height: 40px;
+}
+.speelronde option{
+    width: 10%;
+}
+.fixture-group{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.matchH2{
+    text-align: center;
+    font-size: 32px;
+}
+.match-table{
+    width: 100%;
+}
+.match-table tr{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: grey;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+.match .match-table tr{
+    width: 90%;
+}
+.match-table tr:first-child{
+    margin-top: 20px;
+}
+.match-table tr td:first-child{
+    margin-left: 20px;
+}
+.match .match-table tr td:first-child{
+    width: 10%;
+}
+.match-table tr td:nth-child(2){
+    margin-left: 20px;
+    width: 50%;
+}
+.match-table tr td:nth-child(3){
+    margin-left: 70px;
+}
+.match-table tr td .scores{
+    height: 100%;
+}
+.match-table tr td .scores p{
+    height: 50%;
+}
+.mdc-drawer__content{
+    background-color: var(--mdc-theme-background);
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--mdc-theme-primary);
+}
+footer .mdc-tab__icon {
+    color: white !important;
+}
