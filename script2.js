@@ -4,7 +4,7 @@ const topAppBar = new MDCTopAppBar(topAppBarElement);
 const backIcon = document.querySelector('.mdc-top-app-bar__back-icon')
 
 backIcon.addEventListener('click', () => {
-    window.location.href = `index.html`;
+    window.location.href = `standen.html`;
 })
 
 const tabBarElement = document.querySelector('.mdc-tab-bar')

@@ -210,11 +210,31 @@ main .my-image-list .mdc-image-list__item{
 .speelronde option{
     width: 10%;
 }
+.match{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.match .datePicker{
+    width: 90%;
+    height: 40px;
+    font-size: 24px;
+    border-radius: 5px;
+}
 .fixture-group{
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.fixture-group h2{
+    width: 100%;
+    text-align: center;
+}
+.fixture-group p{
+    width: 100%;
+    text-align: center;
 }
 .matchH2{
     text-align: center;
@@ -233,6 +253,9 @@ main .my-image-list .mdc-image-list__item{
 }
 .match .match-table tr{
     width: 90%;
+}
+.match-table tbody{
+    width: 100%;
 }
 .match-table tr:first-child{
     margin-top: 20px;

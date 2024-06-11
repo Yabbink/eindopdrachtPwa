@@ -44,63 +44,6 @@ hamburgerItem.forEach(function(button) {
     button.addEventListener('click', setActiveLink);
 });
 
-function competities(){
-    fetch('https://api-football-v1.p.rapidapi.com/v3/leagues', {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '862ebac7f9msh969c479e23695a1p15ea43jsn5ad4cf9b18cd',
-            'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        const result = data.response;
-        console.log(result);
-    
-        const sortedLeagues = result.sort((a, b) => b.popular - a.popular).slice(2, 12); 
-        console.log(sortedLeagues);
-        
-        let ul = document.querySelector('.mdc-image-list');  
-        sortedLeagues.forEach(function(response) {
-            let li = document.createElement('li');
-            li.classList.add('mdc-image-list__item');
-            let leagueId = response.league.id;  
-            
-            let image = document.createElement('img');
-            image.classList.add('mdc-image-list__image');
-            image.src = response.league.logo;
-    
-            image.alt = response.league.name;
-    
-            let p = document.createElement('p')
-            p.classList.add('mdc-image-list__paragraph')
-            p.textContent = response.league.name
-    
-            li.appendChild(image);
-            li.appendChild(p)
-            ul.appendChild(li);
-    
-            li.addEventListener('click', function(){
-                if (image) {
-                    altTekst = image.alt
-                    console.log(altTekst)
-                    window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}`;
-                }
-            })
-        });
-    })
-    .catch(error => {
-        console.error('There has been a problem with your fetch operation:', error);
-    });    
-}
-
-competities()
-
 function getCurrentDate() {
     const now = new Date();
     const year = now.getFullYear();
