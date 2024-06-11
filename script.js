@@ -71,7 +71,7 @@ function competities(){
         
         let ul = document.querySelector('.mdc-image-list');  
         sortedLeagues.forEach(function(response) {
-            li = document.createElement('li');
+            let li = document.createElement('li');
             li.classList.add('mdc-image-list__item');
             let leagueId = response.league.id;  
             
