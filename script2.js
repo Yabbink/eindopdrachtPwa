@@ -71,7 +71,8 @@ mdcItem.forEach(function(element){
     }
     if (element.classList.contains('statistieken')) {
         statDiv.forEach(function(statDiv) {
-            ['goals', 'assists', 'yellow', 'red'].forEach(function(statType) {
+            let tables = ['goals', 'assists', 'yellow', 'red']
+            tables.forEach(function(statType) {
                 if (statDiv.classList.contains(statType)) {
                     fetchTopStandings(leagueId, statType);
                 }
@@ -337,7 +338,7 @@ function displayLeagueMatches(matches) {
     });
 
     fixturesByRound.forEach((dates, round) => {
-        const sanitizedRound = round.replace(/ /g, '_');
+        const sanitizedRound = round.replace(/ /g, '-');
         const newOption = document.createElement('option');
         newOption.text = round;
         newOption.value = sanitizedRound;

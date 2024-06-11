@@ -25,10 +25,6 @@ const home = document.querySelector('.mdc-list-item:nth-child(2)')
 const body = document.querySelector('body')
 const tableMatch = document.querySelector('.match-table')
 const tbodyMatch = document.querySelector('.match-table tbody')
-const sheet = document.querySelector('.sheet')
-const closeBtn = document.querySelector('.sheet .mdc-icon-button')
-const sheetTitle = document.querySelector('.sheet .mdc-top-app-bar__title')
-const sheetMain = document.querySelector('.sheet main')
 
 function setActiveLink() {
     const currentPage = title.textContent.trim();

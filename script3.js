@@ -23,12 +23,10 @@ const title = document.querySelector('.mdc-top-app-bar__title')
 const hamburgerItem = document.querySelectorAll('.mdc-list-item')
 const home = document.querySelector('.mdc-list-item:nth-child(2)')
 const body = document.querySelector('body')
-const sheet = document.querySelector('.sheet')
-const closeBtn = document.querySelector('.sheet .mdc-icon-button')
-const sheetTitle = document.querySelector('.sheet .mdc-top-app-bar__title')
-const sheetMain = document.querySelector('.sheet main')
-const leagueField = document.querySelector('#leagueField')
-const leagueSearch = document.querySelector('#leagueSearch')
+const item = document.querySelectorAll('.mdc-tab')
+const mdcItem = document.querySelectorAll('.mdc-item')
+const leagueField = document.querySelector('.leagueField')
+const leagueSearch = document.querySelector('.leagueSearch')
 
 function setActiveLink() {
     const currentPage = title.textContent.trim();
@@ -49,6 +47,7 @@ hamburgerItem.forEach(function(button) {
 });
 
 function zoekCompetitie(){
+    const naam = leagueField.value.toLowerCase()
     fetch('https://api-football-v1.p.rapidapi.com/v3/leagues', {
         method: 'GET',
         headers: {
@@ -69,11 +68,11 @@ function zoekCompetitie(){
         let li = '' 
 
         ul.innerHTML = ''
-        const competitieNaam = leagueField.value.toLowerCase()
 
         const filteredResults = result.filter(response => {
-            const leagueNameMatch = response.league.name.toLowerCase().includes(competitieNaam);
-            return leagueNameMatch;
+            const leagueNameMatch = response.league.name.toLowerCase().includes(naam);
+            const countryNameMatch = response.country.name.toLowerCase().includes(naam);
+            return leagueNameMatch || countryNameMatch;
         });
 
         filteredResults.forEach(function(response) {

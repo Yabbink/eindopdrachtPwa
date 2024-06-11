@@ -92,17 +92,23 @@ main .my-image-list .mdc-image-list__item{
 .mdc-tab .mdc-tab__text-label{
     color: red;
 }
-#leagueField{
+.competitie{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.leagueField{
     width: 50%;
     height: 40px;
     border-radius: 5px;
     font-size: 20px;
     padding-left: 10px;
 }
-#leagueField{
+.leagueField{
     outline: 0px solid black;
 }
-#leagueSearch{
+.leagueSearch{
     width: 30%;
     height: 40px;
     color: white;
