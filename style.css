@@ -104,8 +104,6 @@ main .my-image-list .mdc-image-list__item{
     border-radius: 5px;
     font-size: 20px;
     padding-left: 10px;
-}
-.leagueField{
     outline: 0px solid black;
 }
 .leagueSearch{
