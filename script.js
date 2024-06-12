@@ -23,8 +23,9 @@ const title = document.querySelector('.mdc-top-app-bar__title')
 const hamburgerItem = document.querySelectorAll('.mdc-list-item')
 const home = document.querySelector('.mdc-list-item:nth-child(2)')
 const body = document.querySelector('body')
-const tableMatch = document.querySelector('.match-table')
-const tbodyMatch = document.querySelector('.match-table tbody')
+const datePicker = document.querySelector('.datePicker')
+let tableMatch2 = document.querySelector('.match-table')
+let tbodyMatch2 = document.querySelector('.match-table tbody')
 
 function setActiveLink() {
     const currentPage = title.textContent.trim();
@@ -56,23 +57,25 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function fetchWithRetry(url, options, retries = 3, backoff = 3000) {
+async function fetchWithRetry(url, options, retries = 3, backoff = 3000, maxBackoff = 30000) {
     for (let i = 0; i < retries; i++) {
         try {
             const response = await fetch(url, options);
             if (!response.ok) {
                 if (response.status === 429 && i < retries - 1) {
+                    console.log(`Rate limited, retrying after ${backoff}ms`);
                     await sleep(backoff);
-                    backoff *= 2;
+                    backoff = Math.min(backoff * 2, maxBackoff);
                     continue;
                 }
                 throw new Error('Network response was not ok');
             }
-            return await response.json();
+            return response.json();
         } catch (error) {
             if (i < retries - 1) {
+                console.error(`Error on attempt ${i + 1}:`, error);
                 await sleep(backoff);
-                backoff *= 2;
+                backoff = Math.min(backoff * 2, maxBackoff);
             } else {
                 throw error;
             }
@@ -80,32 +83,30 @@ async function fetchWithRetry(url, options, retries = 3, backoff = 3000) {
     }
 }
 
-function wedstrijden() {
-    const currentDate = getCurrentDate();
-    fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?date=${currentDate}`, {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '862ebac7f9msh969c479e23695a1p15ea43jsn5ad4cf9b18cd',
-            'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
+async function wedstrijden(date) {
+    if (!date) {
+        date = getCurrentDate();
+    }
+
+    try {
+        const data = await fetchWithRetry(`https://api-football-v1.p.rapidapi.com/v3/fixtures?date=${date}`, {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': '862ebac7f9msh969c479e23695a1p15ea43jsn5ad4cf9b18cd',
+                'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+            }
+        });
+
         const result = data.response;
         console.log(result);
         toonWedstrijden(result);
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
-    });
+    }
 }
 
 function toonWedstrijden(wedstrijden) {
+    tbodyMatch2.innerHTML = ''
     const groupedMatches = [];
 
     wedstrijden.forEach(wedstrijd => {
@@ -185,11 +186,17 @@ function toonWedstrijden(wedstrijden) {
             row.appendChild(teamsCell);
             row.appendChild(scoreCell);
             fixtureGroupDiv.appendChild(row);
-            tbodyMatch.appendChild(fixtureGroupDiv);
+            tbodyMatch2.appendChild(fixtureGroupDiv);
         });
 
-        tableMatch.appendChild(tbodyMatch);
+        tableMatch2.appendChild(tbodyMatch2);
     });
 }
 
-wedstrijden();
+wedstrijden()
+
+datePicker.addEventListener('change', function(){
+    wedstrijden(datePicker.value);
+})
+
+
