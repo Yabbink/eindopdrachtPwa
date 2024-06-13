@@ -279,6 +279,53 @@ main .my-image-list .mdc-image-list__item{
 .match-table tr td .scores p{
     height: 50%;
 }
+.wedstrijd{
+    width: 90%;
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+.wedstrijd2{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.wedstrijd2 .team{
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.wedstrijd2 .team img{
+    width: 120px;
+}
+.wedstrijd2 .score{
+    width: 33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.home-event, .away-event{
+    display: flex;
+    flex-direction: column;
+}
+.event{
+    display: flex;
+    gap: 10px;
+}
+.home-event .event{
+    margin-left: 10px;
+}
+.away-event .event{
+    margin-right: 10px;
+}
+.event .time{
+    color: #ff0004;
+}
 .mdc-drawer__content{
     background-color: var(--mdc-theme-background);
 }

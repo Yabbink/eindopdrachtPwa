@@ -187,6 +187,13 @@ function toonWedstrijden(wedstrijden) {
             row.appendChild(scoreCell);
             fixtureGroupDiv.appendChild(row);
             tbodyMatch2.appendChild(fixtureGroupDiv);
+            const fixtureId = wedstrijd.fixture.id
+
+            row.addEventListener('click', function(){
+                if (row) {
+                    window.location.href = `uitslagen.html?id=${fixtureId}`;
+                }
+            })
         });
 
         tableMatch2.appendChild(tbodyMatch2);
