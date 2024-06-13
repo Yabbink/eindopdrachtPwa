@@ -320,6 +320,12 @@ main .my-image-list .mdc-image-list__item{
     display: flex;
     flex-direction: column;
 }
+.gebeurtenis .home-event{
+    align-items: flex-start;
+}
+.gebeurtenis .away-event{
+    align-items: flex-end;
+}
 .gebeurtenis .event{
     display: flex;
     gap: 10px;
