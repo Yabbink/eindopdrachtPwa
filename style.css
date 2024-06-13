@@ -316,6 +316,7 @@ main .my-image-list .mdc-image-list__item{
     justify-content: space-between;
 }
 .gebeurtenis .home-event, .gebeurtenis .away-event{
+    width: 50%;
     display: flex;
     flex-direction: column;
 }
