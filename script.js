@@ -190,9 +190,7 @@ function toonWedstrijden(wedstrijden) {
             const fixtureId = wedstrijd.fixture.id
 
             row.addEventListener('click', function(){
-                if (row) {
-                    window.location.href = `uitslagen.html?id=${fixtureId}`;
-                }
+                window.location.href = `uitslagen.html?id=${fixtureId}`;
             })
         });
 

@@ -409,6 +409,12 @@ function displayLeagueMatches(matches) {
                 row.appendChild(scoreCell);
                 fixtureGroupDiv.appendChild(row);
                 tbodyMatch.appendChild(fixtureGroupDiv)
+
+                const fixtureId = match.fixture.id
+
+                row.addEventListener('click', function(){
+                   window.location.href = `uitslagen.html?id=${fixtureId}`;
+                })
             });
         });
 
