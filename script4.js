@@ -20,8 +20,21 @@ const scoreAway = document.querySelector('.scoreAway')
 const awayTeam = document.querySelector('.awayTeam')
 const awayTeamImg = document.querySelector('.awayTeam img')
 const awayTeamP = document.querySelector('.awayTeam p')
-const homeEvent = document.querySelector('.home-event')
-const awayEvent = document.querySelector('.away-event')
+const gebeurtenis = document.querySelector('.gebeurtenis')
+const homeEvent = document.querySelector('.gebeurtenis .home-event')
+const awayEvent = document.querySelector('.gebeurtenis .away-event')
+const matchEvent = document.querySelector('.matchEvent')
+const matchEventHome = document.querySelector('.matchEvent .home-event')
+const matchEventAway = document.querySelector('.matchEvent .away-event')
+const eventIcons = document.querySelector('.eventIcons')
+const homeIcons = document.querySelector('.homeIcons')
+const awayIcons = document.querySelector('.awayIcons')
+const lineUp = document.querySelector('.line-up')
+const lineUpHome = document.querySelector('.line-up .home-line-up')
+const lineUpAway = document.querySelector('.line-up .away-line-up')
+const competitieP = document.querySelector('.competitieInfo p:nth-child(2)')
+const stadionP = document.querySelector('.stadionInfo p:nth-child(2)')
+const abitrageP = document.querySelector('.abitrageInfo p:nth-child(2)')
 
 const urlParams = new URLSearchParams(window.location.search);
 const fixtureId = urlParams.get('id');
@@ -94,7 +107,103 @@ function toonWedstrijd(match){
             awayEvent.appendChild(eventDiv)
         }
       }
-      
     })
-   });
+    const timeSort = events.sort((a, b) => {
+        if (a.time.elapsed === b.time.elapsed) {
+            return (a.time.extra || 0) - (b.time.extra || 0);
+        }
+        return a.time.elapsed - b.time.elapsed;
+    });
+    console.log("hallo")
+    timeSort.forEach(function(event){
+      console.log(event)
+      const eventDiv2 = document.createElement('div')
+      eventDiv2.classList.add('event')
+      const timeEvent = document.createElement('p')
+      timeEvent.classList.add('time')
+      if(event.time.extra != null)
+      {
+        timeEvent.textContent = event.time.elapsed + " + " + event.time.extra + "'"
+      }
+      else
+      {
+        timeEvent.textContent = event.time.elapsed + "'"
+      }
+      const playerDiv = document.createElement('div')
+      playerDiv.classList.add('playerDiv')
+      const playerEvent = document.createElement('p')
+      playerEvent.classList.add('player')
+      playerEvent.textContent += event.player.name + ""
+      const icon = document.createElement('img');
+      icon.classList.add('material-symbols-outlined');
+      const playerIn = document.createElement('p')
+      playerIn.classList.add('playerIn')
+      if(event.type.includes('Goal'))
+      {
+        icon.src = "../eindopdrachtPwa/images/football-icon.svg";
+        icon.alt = "football"
+        playerIn.style.display = "none"
+      }
+      if(event.detail.includes('Yellow'))
+      {
+        icon.src = "../eindopdrachtPwa/images/yellow-icon.svg";
+        icon.alt = "yellow-card"
+        playerIn.style.display = "none"
+      }
+      if(event.detail.includes('Red'))
+      {
+        icon.src = "../eindopdrachtPwa/images/red-icon.svg";
+        icon.alt = "red-card"
+        playerIn.style.display = "none"
+      }
+      if(event.type.includes('subst'))
+      {
+        icon.src = "../eindopdrachtPwa/images/sub-icon.svg";
+        icon.alt = "red-card"
+        playerIn.textContent += event.assist.name
+      }
+      playerDiv.appendChild(playerEvent)
+      playerDiv.appendChild(playerIn)
+      eventDiv2.appendChild(timeEvent)
+      eventDiv2.appendChild(playerDiv)
+      eventDiv2.appendChild(icon)
+      if(event.team.name.includes(fixture.teams.home.name))
+      {
+        matchEventHome.appendChild(eventDiv2)
+      }
+      else
+      {
+        matchEventAway.appendChild(eventDiv2)
+      }
+    })
+    console.log("hallo")
+    console.log(fixture.lineups)
+    const lineups = fixture.lineups
+    lineups.forEach(function(lineup){
+        console.log("hallo")
+        console.log(lineup)
+        const startXi = lineup.startXI
+        startXi.forEach(function(player){
+          console.log(player)
+          const playerDiv = document.createElement('div')
+          const number = document.createElement('p')
+          number.textContent = player.player.number
+          const playerName = document.createElement('p')
+          playerName.textContent = player.player.name
+          playerDiv.appendChild(number)
+          playerDiv.appendChild(playerName)
+          if(lineup.team.name.includes(fixture.teams.home.name))
+          {
+            lineUpHome.appendChild(playerDiv)
+          }
+          else
+          {
+            lineUpAway.appendChild(playerDiv)
+          }
+        })
+    })
+    competitieP.textContent = fixture.league.name
+    stadionP.textContent = fixture.fixture.venue.name
+    abitrageP.textContent = fixture.fixture.referee
+  });
 }

@@ -288,6 +288,19 @@ main .my-image-list .mdc-image-list__item{
     margin-top: 20px;
     border-radius: 5px;
 }
+main h2{
+    margin-top: 40px;
+}
+.matchEvent, .line-up, .wedstrijdInfo{
+    width: 90%;
+    background-color: grey;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+}
+.wedstrijdInfo{
+    flex-direction: column;
+}
 .wedstrijd2{
     width: 100%;
     display: flex;
@@ -315,29 +328,75 @@ main .my-image-list .mdc-image-list__item{
     display: flex;
     justify-content: space-between;
 }
-.gebeurtenis .home-event, .gebeurtenis .away-event{
-    width: 50%;
+.home-event, .away-event{
+    width: 48%;
     display: flex;
     flex-direction: column;
 }
-.gebeurtenis .home-event{
+.home-event{
     align-items: flex-start;
 }
-.gebeurtenis .away-event{
+.away-event{
     align-items: flex-end;
 }
-.gebeurtenis .event{
+.event{
+    width: 100%;
     display: flex;
     gap: 10px;
 }
-.gebeurtenis .home-event .event{
+.away-event .event{
+    flex-direction: row-reverse;
+}
+.home-event .event{
     margin-left: 10px;
 }
-.gebeurtenis .away-event .event{
+.away-event .event{
     margin-right: 10px;
 }
 .event .time{
     color: #ff0004;
+}
+.material-symbols-outlined{
+    width: 40px;
+    margin-bottom: 10px;
+}
+.material-symbols-outlined:first-child{
+    margin-top: 10px;
+}
+.playerDiv{
+    width: 50%;
+}
+.line-up .home-line-up, .line-up .away-line-up{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+.home-line-up div, .away-line-up div{
+    display: flex;
+    gap: 10px;
+}
+.home-line-up{
+    margin-left: 10px;
+}
+.away-line-up{
+    margin-right: 10px;
+}
+.away-line-up div{
+    flex-direction: row-reverse;
+}
+.home-line-up div p:first-child, .away-line-up div p:first-child{
+    color: #ff0004;
+}
+.competitieInfo, .stadionInfo, .abitrageInfo{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.competitieInfo p:first-child, .stadionInfo p:first-child, .abitrageInfo p:first-child{
+    margin-left: 10px;
+}
+.competitieInfo p:nth-child(2), .stadionInfo p:nth-child(2), .abitrageInfo p:nth-child(2){
+    margin-right: 10px;
 }
 .mdc-drawer__content{
     background-color: var(--mdc-theme-background);
