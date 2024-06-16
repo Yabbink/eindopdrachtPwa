@@ -80,6 +80,20 @@ function zoekCompetitie(){
             li.classList.add('mdc-image-list__item');
             let leagueId = response.league.id;  
                 
+            let svgNS = "http://www.w3.org/2000/svg"
+            let svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("width", "24");
+            svg.setAttribute("height", "24");
+            svg.setAttribute("viewBox", "0 0 24 24");
+
+            let path = document.createElementNS(svgNS, "path");
+            path.setAttribute("d", "M12 .587l3.668 7.431 8.2 1.193-5.932 5.78 1.401 8.169L12 18.896 4.663 23.16l1.401-8.169L.132 9.211l8.2-1.193z");
+            path.setAttribute("stroke", "black");
+            path.setAttribute("stroke-width", "1");
+            path.setAttribute("fill", "white");
+
+            svg.appendChild(path)
+
             let image = document.createElement('img');
             image.classList.add('mdc-image-list__image');
             image.src = response.league.logo;
@@ -90,11 +104,12 @@ function zoekCompetitie(){
             p.classList.add('mdc-image-list__paragraph')
             p.textContent = response.league.name
         
+            li.appendChild(svg)
             li.appendChild(image);
             li.appendChild(p)
             ul.appendChild(li);
         
-            li.addEventListener('click', function(){
+            image.addEventListener('click', function(){
                 if (image) {
                     altTekst = image.alt
                     console.log(altTekst)

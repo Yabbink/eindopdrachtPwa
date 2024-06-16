@@ -43,7 +43,8 @@ const benchAway = document.querySelector('.bench .away-bench')
 const coach = document.querySelector('.coach')
 const coachHome = document.querySelector('.coach .home-coach')
 const coachAway = document.querySelector('.coach .away-coach')
-const competitieP = document.querySelector('.competitieInfo p:nth-child(2)')
+const competitieLink = document.querySelector('.competitieInfo a')
+const competitieP = document.querySelector('.competitieInfo a p')
 const stadionP = document.querySelector('.stadionInfo p:nth-child(2)')
 const abitrageP = document.querySelector('.abitrageInfo p:nth-child(2)')
 
@@ -266,8 +267,12 @@ function toonWedstrijd(match){
         }
     })
 
+    let leagueId = fixture.league.id
+    let leagueName = fixture.league.name
+
     wedstrijdInfo.textContent = "Wedstrijdinfo"
-    competitieP.textContent = fixture.league.name
+    competitieLink.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(leagueName)}`
+    competitieP.textContent = leagueName
     stadionP.textContent = fixture.fixture.venue.name
     abitrageP.textContent = fixture.fixture.referee
   });

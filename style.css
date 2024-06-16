@@ -47,7 +47,7 @@ main .my-image-list{
 }
 main .my-image-list .mdc-image-list__item{
     width: 45%;
-    height: 180px;
+    height: 260px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,6 +64,9 @@ main .my-image-list .mdc-image-list__item{
 }
 .mdc-image-list__item .mdc-image-list__paragraph{
     color: black;
+}
+.mdc-image-list__item svg{
+    margin-bottom: 10px;
 }
 .hidden{
     display: none !important;
@@ -405,8 +408,12 @@ main h2{
 .competitieInfo p:first-child, .stadionInfo p:first-child, .abitrageInfo p:first-child{
     margin-left: 10px;
 }
-.competitieInfo p:nth-child(2), .stadionInfo p:nth-child(2), .abitrageInfo p:nth-child(2){
+.competitieInfo a p, .stadionInfo p:nth-child(2), .abitrageInfo p:nth-child(2){
     margin-right: 10px;
+}
+.competitieInfo a{
+    text-decoration: none;
+    color: red;
 }
 .mdc-drawer__content{
     background-color: var(--mdc-theme-background);
