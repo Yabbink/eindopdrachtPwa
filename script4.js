@@ -20,6 +20,11 @@ const scoreAway = document.querySelector('.scoreAway')
 const awayTeam = document.querySelector('.awayTeam')
 const awayTeamImg = document.querySelector('.awayTeam img')
 const awayTeamP = document.querySelector('.awayTeam p')
+const gebeurtenissen = document.querySelector('.gebeurtenissen')
+const opstellingen = document.querySelector('.opstelling')
+const bank = document.querySelector('.bank')
+const trainer = document.querySelector('.trainer')
+const wedstrijdInfo = document.querySelector('.info')
 const gebeurtenis = document.querySelector('.gebeurtenis')
 const homeEvent = document.querySelector('.gebeurtenis .home-event')
 const awayEvent = document.querySelector('.gebeurtenis .away-event')
@@ -82,6 +87,7 @@ function toonWedstrijd(match){
     awayTeamImg.src = fixture.teams.away.logo
     awayTeamImg.alt = `${fixture.teams.away.name} logo`
     awayTeamP.textContent = fixture.teams.away.name
+
     const events = fixture.events
     events.forEach(function(event){
       console.log(event)
@@ -123,6 +129,7 @@ function toonWedstrijd(match){
     console.log("hallo")
     timeSort.forEach(function(event){
       console.log(event)
+      gebeurtenissen.textContent = "Gebeurtenissen"
       const eventDiv2 = document.createElement('div')
       eventDiv2.classList.add('event')
       const timeEvent = document.createElement('p')
@@ -199,6 +206,7 @@ function toonWedstrijd(match){
         const startXi = lineup.startXI
         startXi.forEach(function(player){
           console.log(player)
+          opstellingen.textContent = "Opstellingen"
           const playerDiv = document.createElement('div')
           const number = document.createElement('p')
           number.textContent = player.player.number
@@ -219,6 +227,7 @@ function toonWedstrijd(match){
         const bench = lineup.substitutes
         bench.forEach(function(player){
           console.log(player)
+          bank.textContent = "Bank"
           const playerDiv = document.createElement('div')
           const number = document.createElement('p')
           number.textContent = player.player.number
@@ -236,6 +245,7 @@ function toonWedstrijd(match){
           }
         })
 
+        trainer.textContent = "Coach"
         const coachName = document.createElement('p')
         coachName.textContent = lineup.coach.name
 
@@ -248,6 +258,8 @@ function toonWedstrijd(match){
           coachAway.appendChild(coachName)
         }
     })
+
+    wedstrijdInfo.textContent = "Wedstrijdinfo"
     competitieP.textContent = fixture.league.name
     stadionP.textContent = fixture.fixture.venue.name
     abitrageP.textContent = fixture.fixture.referee
