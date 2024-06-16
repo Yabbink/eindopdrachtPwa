@@ -291,7 +291,7 @@ main .my-image-list .mdc-image-list__item{
 main h2{
     margin-top: 40px;
 }
-.matchEvent, .line-up, .wedstrijdInfo{
+.matchEvent, .line-up, .bench, .coach, .wedstrijdInfo{
     width: 90%;
     background-color: grey;
     display: flex;
@@ -347,8 +347,15 @@ main h2{
 .away-event .event{
     flex-direction: row-reverse;
 }
+.matchEvent .away-event .event{
+    flex-direction: row;
+}
 .home-event .event{
     margin-left: 10px;
+}
+.matchEvent .home-event .event, .matchEvent .away-event .event{
+    display: flex;
+    align-items: center;
 }
 .away-event .event{
     margin-right: 10px;
@@ -366,25 +373,28 @@ main h2{
 .playerDiv{
     width: 50%;
 }
-.line-up .home-line-up, .line-up .away-line-up{
+.line-up .home-line-up, .line-up .away-line-up, .bench .home-bench, .bench .away-bench, .coach .home-coach, .coach .away-coach{
     width: 50%;
     display: flex;
     flex-direction: column;
 }
-.home-line-up div, .away-line-up div{
+.home-line-up div, .away-line-up div, .home-bench div, .away-bench div{
     display: flex;
     gap: 10px;
 }
-.home-line-up{
+.home-line-up, .home-bench, .home-coach{
     margin-left: 10px;
 }
-.away-line-up{
+.away-line-up, .away-bench, .away-coach{
     margin-right: 10px;
 }
-.away-line-up div{
+.away-coach{
+    align-items: flex-end;
+}
+.away-line-up div, .away-bench div{
     flex-direction: row-reverse;
 }
-.home-line-up div p:first-child, .away-line-up div p:first-child{
+.home-line-up div p:first-child, .away-line-up div p:first-child, .home-bench div p:first-child, .away-bench div p:first-child{
     color: #ff0004;
 }
 .competitieInfo, .stadionInfo, .abitrageInfo{

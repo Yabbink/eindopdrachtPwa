@@ -32,6 +32,12 @@ const awayIcons = document.querySelector('.awayIcons')
 const lineUp = document.querySelector('.line-up')
 const lineUpHome = document.querySelector('.line-up .home-line-up')
 const lineUpAway = document.querySelector('.line-up .away-line-up')
+const bench = document.querySelector('.bench')
+const benchHome = document.querySelector('.bench .home-bench')
+const benchAway = document.querySelector('.bench .away-bench')
+const coach = document.querySelector('.coach')
+const coachHome = document.querySelector('.coach .home-coach')
+const coachAway = document.querySelector('.coach .away-coach')
 const competitieP = document.querySelector('.competitieInfo p:nth-child(2)')
 const stadionP = document.querySelector('.stadionInfo p:nth-child(2)')
 const abitrageP = document.querySelector('.abitrageInfo p:nth-child(2)')
@@ -133,7 +139,14 @@ function toonWedstrijd(match){
       playerDiv.classList.add('playerDiv')
       const playerEvent = document.createElement('p')
       playerEvent.classList.add('player')
-      playerEvent.textContent += event.player.name + ""
+
+      if(event.type.includes('subst')){
+        playerEvent.textContent += "uit: " + event.player.name
+      }
+      else{
+        playerEvent.textContent += event.player.name + ""
+      }
+
       const icon = document.createElement('img');
       icon.classList.add('material-symbols-outlined');
       const playerIn = document.createElement('p')
@@ -159,8 +172,8 @@ function toonWedstrijd(match){
       if(event.type.includes('subst'))
       {
         icon.src = "../eindopdrachtPwa/images/sub-icon.svg";
-        icon.alt = "red-card"
-        playerIn.textContent += event.assist.name
+        icon.alt = "sub"
+        playerIn.textContent += "in: " + event.assist.name
       }
       playerDiv.appendChild(playerEvent)
       playerDiv.appendChild(playerIn)
@@ -176,6 +189,7 @@ function toonWedstrijd(match){
         matchEventAway.appendChild(eventDiv2)
       }
     })
+    
     console.log("hallo")
     console.log(fixture.lineups)
     const lineups = fixture.lineups
@@ -201,6 +215,38 @@ function toonWedstrijd(match){
             lineUpAway.appendChild(playerDiv)
           }
         })
+
+        const bench = lineup.substitutes
+        bench.forEach(function(player){
+          console.log(player)
+          const playerDiv = document.createElement('div')
+          const number = document.createElement('p')
+          number.textContent = player.player.number
+          const playerName = document.createElement('p')
+          playerName.textContent = player.player.name
+          playerDiv.appendChild(number)
+          playerDiv.appendChild(playerName)
+          if(lineup.team.name.includes(fixture.teams.home.name))
+          {
+            benchHome.appendChild(playerDiv)
+          }
+          else
+          {
+            benchAway.appendChild(playerDiv)
+          }
+        })
+
+        const coachName = document.createElement('p')
+        coachName.textContent = lineup.coach.name
+
+        if(lineup.team.name.includes(fixture.teams.home.name))
+        {
+          coachHome.appendChild(coachName)
+        }
+        else
+        {
+          coachAway.appendChild(coachName)
+        }
     })
     competitieP.textContent = fixture.league.name
     stadionP.textContent = fixture.fixture.venue.name
