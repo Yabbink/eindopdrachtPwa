@@ -88,8 +88,8 @@ function toonWedstrijd(match){
     awayTeamImg.alt = `${fixture.teams.away.name} logo`
     awayTeamP.textContent = fixture.teams.away.name
 
-    if(fixture.events == null && fixture.lineups == null){
-       gebeurtenis.style.display = "none"
+    if(fixture.events.length == 0 && fixture.lineups.length == 0){
+       matchEvent.style.display = "none"
        lineUp.style.display = "none"
        bench.style.display = "none"
        coach.style.display = "none"
