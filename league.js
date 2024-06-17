@@ -30,12 +30,16 @@ const goalsDiv = document.querySelector('.goals')
 const assistDiv = document.querySelector('.assists')
 const yellowDiv = document.querySelector('.yellow')
 const redDiv = document.querySelector('.red')
+const goalsH2 = document.querySelector('.goals h2')
 const tableTopScorers = document.querySelector('.goals-table')
 const tbodyTopScorers = document.querySelector('.goals-table tbody')
+const assistH2 = document.querySelector('.assists h2')
 const tableTopAssisters = document.querySelector('.assists-table')
 const tbodyTopAssisters = document.querySelector('.assists-table tbody')
+const yellowH2 = document.querySelector('.yellow h2')
 const tableTopYellow = document.querySelector('.yellow-table')
 const tbodyTopYellow = document.querySelector('.yellow-table tbody')
+const redH2 = document.querySelector('.red h2')
 const tableTopRed = document.querySelector('.red-table')
 const tbodyTopRed = document.querySelector('.red-table tbody')
 const fixtures = document.querySelector('.uitslagen')
@@ -246,7 +250,7 @@ function displayTopStandings(standings, text) {
         playerCell.appendChild(playerDiv);
         const statCell = document.createElement('td');
         
-        if (text.includes('goals')) {
+        if (text == 'goals') {
             statCell.textContent = player.statistics[0].goals.total
         } else if (text == 'assists') {
             statCell.textContent = player.statistics[0].goals.assists;

@@ -291,7 +291,7 @@ main .my-image-list .mdc-image-list__item{
     margin-top: 20px;
     border-radius: 5px;
 }
-main h2{
+main .gebeurtenissen, main .opstelling, main .bank, main .trainer, main .info{
     margin-top: 40px;
 }
 .matchEvent, .line-up, .bench, .coach, .wedstrijdInfo{

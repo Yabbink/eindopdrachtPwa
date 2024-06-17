@@ -90,9 +90,13 @@ function toonWedstrijd(match){
     awayTeamP.textContent = fixture.teams.away.name
 
     if(fixture.events.length == 0 && fixture.lineups.length == 0){
+       gebeurtenissen.style.display = "none"
        matchEvent.style.display = "none"
+       opstellingen.style.display = "none"
        lineUp.style.display = "none"
+       bank.style.display = "none"
        bench.style.display = "none"
+       trainer.style.display = "none"
        coach.style.display = "none"
     }
 

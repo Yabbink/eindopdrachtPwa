@@ -46,8 +46,10 @@ hamburgerItem.forEach(function(button) {
     button.addEventListener('click', setActiveLink);
 });
 
+const favorieten = JSON.parse(localStorage.getItem('favorieten')) || [];
+
 function zoekCompetitie(){
-    const naam = leagueField.value.toLowerCase()
+    const naam = leagueField.value.toLowerCase();
     fetch('https://api-football-v1.p.rapidapi.com/v3/leagues', {
         method: 'GET',
         headers: {
@@ -65,9 +67,9 @@ function zoekCompetitie(){
         const result = data.response;
         console.log(result);
         let ul = document.querySelector('.mdc-image-list'); 
-        let li = '' 
+        let li = '';
 
-        ul.innerHTML = ''
+        ul.innerHTML = '';
 
         const filteredResults = result.filter(response => {
             const leagueNameMatch = response.league.name.toLowerCase().includes(naam);
@@ -80,7 +82,7 @@ function zoekCompetitie(){
             li.classList.add('mdc-image-list__item');
             let leagueId = response.league.id;  
                 
-            let svgNS = "http://www.w3.org/2000/svg"
+            let svgNS = "http://www.w3.org/2000/svg";
             let svg = document.createElementNS(svgNS, "svg");
             svg.setAttribute("width", "24");
             svg.setAttribute("height", "24");
@@ -90,9 +92,14 @@ function zoekCompetitie(){
             path.setAttribute("d", "M12 .587l3.668 7.431 8.2 1.193-5.932 5.78 1.401 8.169L12 18.896 4.663 23.16l1.401-8.169L.132 9.211l8.2-1.193z");
             path.setAttribute("stroke", "black");
             path.setAttribute("stroke-width", "1");
-            path.setAttribute("fill", "white");
-
-            svg.appendChild(path)
+            
+            if(!favorieten.includes(leagueId)){
+                path.setAttribute("fill", "white");
+            }else{
+                path.setAttribute("fill", "red");
+            }
+            
+            svg.appendChild(path);
 
             let image = document.createElement('img');
             image.classList.add('mdc-image-list__image');
@@ -100,22 +107,37 @@ function zoekCompetitie(){
         
             image.alt = response.league.name;
         
-            let p = document.createElement('p')
-            p.classList.add('mdc-image-list__paragraph')
-            p.textContent = response.league.name
+            let p = document.createElement('p');
+            p.classList.add('mdc-image-list__paragraph');
+            p.textContent = response.league.name;
         
-            li.appendChild(svg)
+            li.appendChild(svg);
             li.appendChild(image);
-            li.appendChild(p)
+            li.appendChild(p);
             ul.appendChild(li);
+
+            svg.addEventListener('click', function(){
+                if (!favorieten.includes(leagueId)) {
+                    path.setAttribute("fill", "red");
+                    favorieten.push(leagueId);
+                } else {
+                    path.setAttribute("fill", "white");
+                    const index = favorieten.indexOf(leagueId);
+                    if (index > -1) {
+                        favorieten.splice(index, 1);
+                    }
+                }
+                localStorage.setItem('favorieten', JSON.stringify(favorieten));
+                console.log(favorieten);
+            });
         
             image.addEventListener('click', function(){
                 if (image) {
-                    altTekst = image.alt
-                    console.log(altTekst)
+                    const altTekst = image.alt;
+                    console.log(altTekst);
                     window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}`;
                 }
-            })
+            });
         });
     })
     .catch(error => {
@@ -124,11 +146,11 @@ function zoekCompetitie(){
 }
 
 leagueSearch.addEventListener('click', function(){
-   zoekCompetitie()
-})
+   zoekCompetitie();
+});
 
 leagueField.addEventListener('keydown', function(event){
   if(event.key == 'Enter'){
-    zoekCompetitie()
+    zoekCompetitie();
   }
-})
+});
