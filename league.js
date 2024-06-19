@@ -142,66 +142,66 @@ function fetchLeagueStandings(leagueId) {
     .then(data => {
         const standings = data.response[0].league.standings[0];
         console.log(standings)
-        displayLeagueStandings(standings);
+        // displayLeagueStandings(standings);
     })
     .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
     });
 }
 
-function displayLeagueStandings(standings) {
-    const headers = ['#', 'Team', 'P', 'DS', 'PTN'];
-    headers.forEach(headerText => {
-        const th = document.createElement('th');
-        th.textContent = headerText;
-        headerRowLeague.appendChild(th);
-    });
-    theadLeague.appendChild(headerRowLeague);
+// function displayLeagueStandings(standings) {
+//     const headers = ['#', 'Team', 'P', 'DS', 'PTN'];
+//     headers.forEach(headerText => {
+//         const th = document.createElement('th');
+//         th.textContent = headerText;
+//         headerRowLeague.appendChild(th);
+//     });
+//     theadLeague.appendChild(headerRowLeague);
     
-    standings.forEach(function(team) {
-        const row = document.createElement('tr');
-        const rankCell = document.createElement('td');
-        rankCell.textContent = team.rank;
-        const teamCell = document.createElement('td');
-        const teamDiv = document.createElement('div');
-        teamDiv.classList.add('team-info');
-        const teamLogo = document.createElement('img');
-        teamLogo.src = team.team.logo;
-        teamLogo.alt = team.team.name;
-        teamLogo.classList.add('team-logo');
-        const teamName = document.createElement('p');
-        teamName.textContent = team.team.name;
-        teamDiv.appendChild(teamLogo);
-        teamDiv.appendChild(teamName);
-        teamCell.appendChild(teamDiv);
-        const matchesCell = document.createElement('td');
-        matchesCell.textContent = team.all.played;
-        const goalDiffenceCell = document.createElement('td') 
-        goalDiffenceCell.textContent = team.goalsDiff
-        const pointsCell = document.createElement('td')
-        pointsCell.textContent = team.points
+//     standings.forEach(function(team) {
+//         const row = document.createElement('tr');
+//         const rankCell = document.createElement('td');
+//         rankCell.textContent = team.rank;
+//         const teamCell = document.createElement('td');
+//         const teamDiv = document.createElement('div');
+//         teamDiv.classList.add('team-info');
+//         const teamLogo = document.createElement('img');
+//         teamLogo.src = team.team.logo;
+//         teamLogo.alt = team.team.name;
+//         teamLogo.classList.add('team-logo');
+//         const teamName = document.createElement('p');
+//         teamName.textContent = team.team.name;
+//         teamDiv.appendChild(teamLogo);
+//         teamDiv.appendChild(teamName);
+//         teamCell.appendChild(teamDiv);
+//         const matchesCell = document.createElement('td');
+//         matchesCell.textContent = team.all.played;
+//         const goalDiffenceCell = document.createElement('td') 
+//         goalDiffenceCell.textContent = team.goalsDiff
+//         const pointsCell = document.createElement('td')
+//         pointsCell.textContent = team.points
             
-        row.appendChild(rankCell);
-        row.appendChild(teamCell);
-        row.appendChild(matchesCell);
-        row.appendChild(goalDiffenceCell)
-        row.appendChild(pointsCell)
-        tbodyLeague.appendChild(row);
-    });
-    tableLeague.appendChild(theadLeague)
-    tableLeague.appendChild(tbodyLeague);
-    main.appendChild(tableLeague)
-}
+//         row.appendChild(rankCell);
+//         row.appendChild(teamCell);
+//         row.appendChild(matchesCell);
+//         row.appendChild(goalDiffenceCell)
+//         row.appendChild(pointsCell)
+//         tbodyLeague.appendChild(row);
+//     });
+//     tableLeague.appendChild(theadLeague)
+//     tableLeague.appendChild(tbodyLeague);
+//     main.appendChild(tableLeague)
+// }
 
-function fetchTopStandings(leagueId, text) {
+function fetchTopStandings(leagueId, type) {
     let endpoint;
-    if (text == 'goals') {
+    if (type == 'goals') {
         endpoint = 'topscorers';
-    } else if (text == 'assists') {
+    } else if (type == 'assists') {
         endpoint = 'topassists';
-    } else if (text == 'yellow') {
+    } else if (type == 'yellow') {
         endpoint = 'topyellowcards';
-    } else if (text == 'red') {
+    } else if (type == 'red') {
         endpoint = 'topredcards';
     } else {
         throw new Error('Invalid type');
@@ -223,14 +223,14 @@ function fetchTopStandings(leagueId, text) {
     .then(data => {
         const result = data.response;
         console.log(result);
-        displayTopStandings(result, text);
+        displayTopStandings(result, type);
     })
     .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
     });
 }
 
-function displayTopStandings(standings, text) {
+function displayTopStandings(standings, type) {
     const top5 = standings.slice(0, 5);
     top5.forEach(function(player, index) {
         const row = document.createElement('tr');
@@ -250,13 +250,13 @@ function displayTopStandings(standings, text) {
         playerCell.appendChild(playerDiv);
         const statCell = document.createElement('td');
         
-        if (text == 'goals') {
+        if (type == 'goals') {
             statCell.textContent = player.statistics[0].goals.total
-        } else if (text == 'assists') {
+        } else if (type == 'assists') {
             statCell.textContent = player.statistics[0].goals.assists;
-        } else if (text == 'yellow') {
+        } else if (type == 'yellow') {
             statCell.textContent = player.statistics[0].cards.yellow;
-        } else if (text == 'red') {
+        } else if (type == 'red') {
             statCell.textContent = player.statistics[0].cards.yellowred + player.statistics[0].cards.red;
         } else {
             throw new Error('Invalid type');
@@ -266,32 +266,32 @@ function displayTopStandings(standings, text) {
         row.appendChild(playerCell);
         row.appendChild(statCell);
 
-        if (text == 'goals') {
+        if (type == 'goals') {
             tbodyTopScorers.appendChild(row);
-        } else if (text == 'assists') {
+        } else if (type == 'assists') {
             tbodyTopAssisters.appendChild(row);
-        } else if (text == 'yellow') {
+        } else if (type == 'yellow') {
             tbodyTopYellow.appendChild(row);
-        } else if (text == 'red') {
+        } else if (type == 'red') {
             tbodyTopRed.appendChild(row);
         } else {
             throw new Error('Invalid type');
         }
     });
 
-    if (text == 'goals') {
+    if (type == 'goals') {
         tableTopScorers.appendChild(tbodyTopScorers);
         goalsDiv.appendChild(tableTopScorers);
         stats.appendChild(goalsDiv)
-    } else if (text == 'assists') {
+    } else if (type == 'assists') {
         tableTopAssisters.appendChild(tbodyTopAssisters);
         assistDiv.appendChild(tableTopAssisters);
         stats.appendChild(assistDiv)
-    } else if (text.includes('yellow')) {
+    } else if (type.includes('yellow')) {
         tableTopYellow.appendChild(tbodyTopYellow);
         yellowDiv.appendChild(tableTopYellow);
         stats.appendChild(yellowDiv)
-    } else if (text.includes('red')) {
+    } else if (type.includes('red')) {
         tableTopRed.appendChild(tbodyTopRed);
         redDiv.appendChild(tableTopRed);
         stats.appendChild(redDiv)
@@ -429,19 +429,19 @@ function displayLeagueMatches(matches) {
         const lastOption = speelrondeSelect.options[speelrondeSelect.options.length - 1];
         lastOption.selected = true;
         const selectedRound = lastOption.value;
-        document.querySelectorAll(`.${selectedRound}`).forEach(group => {
-            group.classList.remove('hidden');
+        document.querySelectorAll(`.${selectedRound}`).forEach(function(element) {
+            element.classList.remove('hidden');
         });
     }
 
     speelrondeSelect.addEventListener('change', function() {
         const selectedRound = this.value;
-        document.querySelectorAll('.fixture-group').forEach(group => {
-            group.classList.add('hidden');
+        document.querySelectorAll('.fixture-group').forEach(function(element) {
+            element.classList.add('hidden');
         });
         if (selectedRound) {
-            document.querySelectorAll(`.${selectedRound}`).forEach(group => {
-                group.classList.remove('hidden');
+            document.querySelectorAll(`.${selectedRound}`).forEach(function(element) {
+                element.classList.remove('hidden');
             });
         }
     });

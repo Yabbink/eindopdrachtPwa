@@ -219,7 +219,7 @@ main .my-image-list .mdc-image-list__item{
     flex-direction: column;
     align-items: center;
 }
-.match .datePicker{
+.datePicker{
     width: 90%;
     height: 40px;
     font-size: 24px;
@@ -414,6 +414,18 @@ main .gebeurtenissen, main .opstelling, main .bank, main .trainer, main .info{
 .competitieInfo a{
     text-decoration: none;
     color: red;
+}
+.competities{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.wedstrijden{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .mdc-drawer__content{
     background-color: var(--mdc-theme-background);

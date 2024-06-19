@@ -71,7 +71,7 @@ function zoekCompetitie(){
 
         ul.innerHTML = '';
 
-        const filteredResults = result.filter(response => {
+        const filteredResults = result.filter(function(response) {
             const leagueNameMatch = response.league.name.toLowerCase().includes(naam);
             const countryNameMatch = response.country.name.toLowerCase().includes(naam);
             return leagueNameMatch || countryNameMatch;

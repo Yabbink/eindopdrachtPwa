@@ -59,9 +59,47 @@
     <div class="mdc-drawer-scrim"></div>
     
     <main class="mdc-top-app-bar--fixed-adjust">
-      <ul class="mdc-image-list my-image-list">
+      <div class="mdc-tab-bar" role="tablist">
+        <div class="mdc-tab-scroller">
+          <div class="mdc-tab-scroller__scroll-area">
+            <div class="mdc-tab-scroller__scroll-content">
+              <button class="mdc-tab" role="tab" aria-selected="true" tabindex="0">
+                <span class="mdc-tab__content">
+                  <span class="mdc-tab__text-label">Competities</span>
+                </span>
+                <span class="mdc-tab-indicator">
+                  <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                </span>
+                <span class="mdc-tab__ripple"></span>
+              </button>
+              <button class="mdc-tab" role="tab" aria-selected="true" tabindex="0">
+                <span class="mdc-tab__content">
+                  <span class="mdc-tab__text-label">Wedstrijden</span>
+                </span>
+                <span class="mdc-tab-indicator">
+                  <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                </span>
+                <span class="mdc-tab__ripple"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="competities mdc-item">
+        <h2></h2>
+        <ul class="mdc-image-list my-image-list">
+        
+        </ul>
+      </div>
+      <div class="wedstrijden mdc-item">
+        <input type="date" class="datePicker">
+        <h2></h2>
+        <table class="match-table">
+          <tbody>
       
-      </ul>
+          </tbody>
+        </table>
+      </div>
     </main>
 
     <script src="favorieten.js"></script>

@@ -105,11 +105,13 @@ async function wedstrijden(date) {
     }
 }
 
+const favorieten = JSON.parse(localStorage.getItem('favorieten')) || [];
+
 function toonWedstrijden(wedstrijden) {
     tbodyMatch2.innerHTML = ''
     const groupedMatches = [];
 
-    wedstrijden.forEach(wedstrijd => {
+    wedstrijden.forEach(function(wedstrijd) {
         const league = wedstrijd.league.name;
         const round = wedstrijd.league.round;
         let leagueGroup = groupedMatches.find(group => group.league === league && group.round === round);
@@ -120,7 +122,7 @@ function toonWedstrijden(wedstrijden) {
         leagueGroup.matches.push(wedstrijd);
     });
 
-    groupedMatches.forEach(group => {
+    groupedMatches.forEach(function(group) {
         const fixtureGroupDiv = document.createElement('div')
         fixtureGroupDiv.classList.add('fixture-group')
 
@@ -182,14 +184,53 @@ function toonWedstrijden(wedstrijden) {
             scoreDiv.appendChild(team2Score);
             scoreCell.appendChild(scoreDiv);
 
+            const fixtureId = wedstrijd.fixture.id
+
+            const favorieteCell = document.createElement('td');
+            let svgNS = "http://www.w3.org/2000/svg";
+            let svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("width", "24");
+            svg.setAttribute("height", "24");
+            svg.setAttribute("viewBox", "0 0 24 24");
+
+            let path = document.createElementNS(svgNS, "path");
+            path.setAttribute("d", "M12 .587l3.668 7.431 8.2 1.193-5.932 5.78 1.401 8.169L12 18.896 4.663 23.16l1.401-8.169L.132 9.211l8.2-1.193z");
+            path.setAttribute("stroke", "black");
+            path.setAttribute("stroke-width", "1");
+            
+            if(!favorieten.includes(fixtureId)){
+                path.setAttribute("fill", "white");
+            }else{
+                path.setAttribute("fill", "red");
+            }
+            
+            svg.appendChild(path);
+
+            svg.addEventListener('click', function(){
+                if (!favorieten.includes(fixtureId)) {
+                    path.setAttribute("fill", "red");
+                    favorieten.push(fixtureId);
+                } else {
+                    path.setAttribute("fill", "white");
+                    const index = favorieten.indexOf(fixtureId);
+                    if (index > -1) {
+                        favorieten.splice(index, 1);
+                    }
+                }
+                localStorage.setItem('favorieten', JSON.stringify(favorieten));
+                console.log(favorieten);
+            });
+
+            favorieteCell.appendChild(svg)
+
             row.appendChild(stateCell);
             row.appendChild(teamsCell);
             row.appendChild(scoreCell);
+            row.appendChild(favorieteCell)
             fixtureGroupDiv.appendChild(row);
             tbodyMatch2.appendChild(fixtureGroupDiv);
-            const fixtureId = wedstrijd.fixture.id
 
-            row.addEventListener('click', function(){
+            teamsCell.addEventListener('click', function(){
                 window.location.href = `uitslagen.html?id=${fixtureId}`;
             })
         });
