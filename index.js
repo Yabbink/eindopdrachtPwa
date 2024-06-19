@@ -105,7 +105,7 @@ async function wedstrijden(date) {
     }
 }
 
-const favorieten = JSON.parse(localStorage.getItem('favorieten')) || [];
+const favorietenWedstrijden = JSON.parse(localStorage.getItem('favorietenWedstrijden')) || [];
 
 function toonWedstrijden(wedstrijden) {
     tbodyMatch2.innerHTML = ''
@@ -198,7 +198,7 @@ function toonWedstrijden(wedstrijden) {
             path.setAttribute("stroke", "black");
             path.setAttribute("stroke-width", "1");
             
-            if(!favorieten.includes(fixtureId)){
+            if(!favorietenWedstrijden.includes(fixtureId)){
                 path.setAttribute("fill", "white");
             }else{
                 path.setAttribute("fill", "red");
@@ -207,18 +207,18 @@ function toonWedstrijden(wedstrijden) {
             svg.appendChild(path);
 
             svg.addEventListener('click', function(){
-                if (!favorieten.includes(fixtureId)) {
+                if (!favorietenWedstrijden.includes(fixtureId)) {
                     path.setAttribute("fill", "red");
-                    favorieten.push(fixtureId);
+                    favorietenWedstrijden.push(fixtureId);
                 } else {
                     path.setAttribute("fill", "white");
-                    const index = favorieten.indexOf(fixtureId);
+                    const index = favorietenWedstrijden.indexOf(fixtureId);
                     if (index > -1) {
-                        favorieten.splice(index, 1);
+                        favorietenWedstrijden.splice(index, 1);
                     }
                 }
-                localStorage.setItem('favorieten', JSON.stringify(favorieten));
-                console.log(favorieten);
+                localStorage.setItem('favorietenWedstrijden', JSON.stringify(favorietenWedstrijden));
+                console.log(favorietenWedstrijden);
             });
 
             favorieteCell.appendChild(svg)

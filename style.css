@@ -254,7 +254,7 @@ main .my-image-list .mdc-image-list__item{
     margin-bottom: 20px;
     border-radius: 5px;
 }
-.match .match-table tr{
+.match-table tr{
     width: 90%;
 }
 .match-table tbody{
@@ -264,9 +264,7 @@ main .my-image-list .mdc-image-list__item{
     margin-top: 20px;
 }
 .match-table tr td:first-child{
-    margin-left: 20px;
-}
-.match .match-table tr td:first-child{
+    margin-left: 10px;
     width: 10%;
 }
 .match-table tr td:nth-child(2){
@@ -274,7 +272,7 @@ main .my-image-list .mdc-image-list__item{
     width: 50%;
 }
 .match-table tr td:nth-child(3){
-    margin-left: 70px;
+    width: 20%;
 }
 .match-table tr td .scores{
     height: 100%;

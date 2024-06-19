@@ -18,10 +18,6 @@ const home = document.querySelector('.mdc-list-item:nth-child(2)')
 const body = document.querySelector('body')
 const main = document.querySelector('.main')
 const mdcItem = document.querySelectorAll('.mdc-item')
-const tableLeague = document.querySelector('.standings-table')
-const theadLeague = document.querySelector('.standings-table thead')
-const headerRowLeague = document.querySelector('.standings-table thead tr')
-const tbodyLeague = document.querySelector('.standings-table tbody')
 const stats = document.querySelector('.statistieken')
 const tableItem = document.querySelectorAll('.table-item')
 const tableItemTbody = document.querySelector('.table-item tbody')
@@ -66,7 +62,7 @@ title.textContent = decodeURIComponent(altTekst)
 
 mdcItem.forEach(function(element){
     let hasSameClass = false;
-    if (element.classList.contains('standings-table')) {
+    if (element.classList.contains('standings')) {
         hasSameClass = true;
         fetchLeagueStandings(leagueId);
     }
@@ -97,7 +93,7 @@ title.addEventListener('click', () => {
     })
     mdcItem.forEach(function(element){
         let hasSameClass = false;
-        if (element.classList.contains('standings-table')) {
+        if (element.classList.contains('standings')) {
             hasSameClass = true;
         }
         if (hasSameClass == true) {
@@ -105,7 +101,6 @@ title.addEventListener('click', () => {
         }
     })
 })
-
 
 function setActiveLink() {
     const currentPage = title.textContent.trim();
@@ -140,58 +135,65 @@ function fetchLeagueStandings(leagueId) {
         return response.json();
     })
     .then(data => {
-        const standings = data.response[0].league.standings[0];
-        console.log(standings)
-        // displayLeagueStandings(standings);
+        const standings = data.response[0].league.standings;
+        displayLeagueStandings(standings)
     })
     .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
     });
 }
 
-// function displayLeagueStandings(standings) {
-//     const headers = ['#', 'Team', 'P', 'DS', 'PTN'];
-//     headers.forEach(headerText => {
-//         const th = document.createElement('th');
-//         th.textContent = headerText;
-//         headerRowLeague.appendChild(th);
-//     });
-//     theadLeague.appendChild(headerRowLeague);
-    
-//     standings.forEach(function(team) {
-//         const row = document.createElement('tr');
-//         const rankCell = document.createElement('td');
-//         rankCell.textContent = team.rank;
-//         const teamCell = document.createElement('td');
-//         const teamDiv = document.createElement('div');
-//         teamDiv.classList.add('team-info');
-//         const teamLogo = document.createElement('img');
-//         teamLogo.src = team.team.logo;
-//         teamLogo.alt = team.team.name;
-//         teamLogo.classList.add('team-logo');
-//         const teamName = document.createElement('p');
-//         teamName.textContent = team.team.name;
-//         teamDiv.appendChild(teamLogo);
-//         teamDiv.appendChild(teamName);
-//         teamCell.appendChild(teamDiv);
-//         const matchesCell = document.createElement('td');
-//         matchesCell.textContent = team.all.played;
-//         const goalDiffenceCell = document.createElement('td') 
-//         goalDiffenceCell.textContent = team.goalsDiff
-//         const pointsCell = document.createElement('td')
-//         pointsCell.textContent = team.points
-            
-//         row.appendChild(rankCell);
-//         row.appendChild(teamCell);
-//         row.appendChild(matchesCell);
-//         row.appendChild(goalDiffenceCell)
-//         row.appendChild(pointsCell)
-//         tbodyLeague.appendChild(row);
-//     });
-//     tableLeague.appendChild(theadLeague)
-//     tableLeague.appendChild(tbodyLeague);
-//     main.appendChild(tableLeague)
-// }
+function displayLeagueStandings(standings) {
+    standings.forEach(function(group) {
+        const tableLeague = document.createElement('table')
+        tableLeague.classList.add('standings-table')
+        const theadLeague = document.createElement('thead')
+        const headerRowLeague = document.createElement('tr')
+        const tbodyLeague = document.createElement('tbody')
+
+        const headers = ['#', 'Team', 'P', 'DS', 'PTN'];
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRowLeague.appendChild(th);
+        });
+        theadLeague.appendChild(headerRowLeague);
+        
+        group.forEach(function(team){
+            const row = document.createElement('tr');
+            const rankCell = document.createElement('td');
+            rankCell.textContent = team.rank;
+            const teamCell = document.createElement('td');
+            const teamDiv = document.createElement('div');
+            teamDiv.classList.add('team-info');
+            const teamLogo = document.createElement('img');
+            teamLogo.src = team.team.logo;
+            teamLogo.alt = team.team.name;
+            teamLogo.classList.add('team-logo');
+            const teamName = document.createElement('p');
+            teamName.textContent = team.team.name;
+            teamDiv.appendChild(teamLogo);
+            teamDiv.appendChild(teamName);
+            teamCell.appendChild(teamDiv);
+            const matchesCell = document.createElement('td');
+            matchesCell.textContent = team.all.played;
+            const goalDiffenceCell = document.createElement('td') 
+            goalDiffenceCell.textContent = team.goalsDiff
+            const pointsCell = document.createElement('td')
+            pointsCell.textContent = team.points
+                
+            row.appendChild(rankCell);
+            row.appendChild(teamCell);
+            row.appendChild(matchesCell);
+            row.appendChild(goalDiffenceCell)
+            row.appendChild(pointsCell)
+            tbodyLeague.appendChild(row);
+        })
+        tableLeague.appendChild(theadLeague)
+        tableLeague.appendChild(tbodyLeague);
+        main.appendChild(tableLeague)
+    });
+}
 
 function fetchTopStandings(leagueId, type) {
     let endpoint;
@@ -326,6 +328,7 @@ function fetchLeagueMatches(leagueId) {
 }
 
 function displayLeagueMatches(matches) {
+    const favorietenWedstrijden = JSON.parse(localStorage.getItem('favorietenWedstrijden')) || [];
     const fixturesByRound = new Map();
 
     matches.forEach(fixture => {
@@ -408,13 +411,50 @@ function displayLeagueMatches(matches) {
                 scoreDiv.appendChild(team2Score);
                 scoreCell.appendChild(scoreDiv);
 
+                const fixtureId = match.fixture.id
+
+                const favorieteCell = document.createElement('td');
+                let svgNS = "http://www.w3.org/2000/svg";
+                let svg = document.createElementNS(svgNS, "svg");
+                svg.setAttribute("width", "24");
+                svg.setAttribute("height", "24");
+                svg.setAttribute("viewBox", "0 0 24 24");
+
+                let path = document.createElementNS(svgNS, "path");
+                path.setAttribute("d", "M12 .587l3.668 7.431 8.2 1.193-5.932 5.78 1.401 8.169L12 18.896 4.663 23.16l1.401-8.169L.132 9.211l8.2-1.193z");
+                path.setAttribute("stroke", "black");
+                path.setAttribute("stroke-width", "1");
+                
+                if(!favorietenWedstrijden.includes(fixtureId)){
+                    path.setAttribute("fill", "white");
+                }else{
+                    path.setAttribute("fill", "red");
+                }
+                
+                svg.appendChild(path);
+
+                svg.addEventListener('click', function(){
+                    if (!favorietenWedstrijden.includes(fixtureId)) {
+                        path.setAttribute("fill", "red");
+                        favorietenWedstrijden.push(fixtureId);
+                    } else {
+                        path.setAttribute("fill", "white");
+                        const index = favorietenWedstrijden.indexOf(fixtureId);
+                        if (index > -1) {
+                            favorietenWedstrijden.splice(index, 1);
+                        }
+                    }
+                    localStorage.setItem('favorietenWedstrijden', JSON.stringify(favorietenWedstrijden));
+                    console.log(favorietenWedstrijden);
+                });
+
+                favorieteCell.appendChild(svg)
+
                 row.appendChild(stateCell);
                 row.appendChild(teamsCell);
                 row.appendChild(scoreCell);
                 fixtureGroupDiv.appendChild(row);
                 tbodyMatch.appendChild(fixtureGroupDiv)
-
-                const fixtureId = match.fixture.id
 
                 row.addEventListener('click', function(){
                    window.location.href = `uitslagen.html?id=${fixtureId}`;

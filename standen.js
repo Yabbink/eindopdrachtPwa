@@ -46,9 +46,8 @@ hamburgerItem.forEach(function(button) {
     button.addEventListener('click', setActiveLink);
 });
 
-const favorieten = JSON.parse(localStorage.getItem('favorieten')) || [];
-
 function zoekCompetitie(){
+    const favorietenCompetities = JSON.parse(localStorage.getItem('favorietenCompetities')) || [];
     const naam = leagueField.value.toLowerCase();
     fetch('https://api-football-v1.p.rapidapi.com/v3/leagues', {
         method: 'GET',
@@ -93,7 +92,7 @@ function zoekCompetitie(){
             path.setAttribute("stroke", "black");
             path.setAttribute("stroke-width", "1");
             
-            if(!favorieten.includes(leagueId)){
+            if(!favorietenCompetities.includes(leagueId)){
                 path.setAttribute("fill", "white");
             }else{
                 path.setAttribute("fill", "red");
@@ -117,18 +116,18 @@ function zoekCompetitie(){
             ul.appendChild(li);
 
             svg.addEventListener('click', function(){
-                if (!favorieten.includes(leagueId)) {
+                if (!favorietenCompetities.includes(leagueId)) {
                     path.setAttribute("fill", "red");
-                    favorieten.push(leagueId);
+                    favorietenCompetities.push(leagueId);
                 } else {
                     path.setAttribute("fill", "white");
-                    const index = favorieten.indexOf(leagueId);
+                    const index = favorietenCompetities.indexOf(leagueId);
                     if (index > -1) {
-                        favorieten.splice(index, 1);
+                        favorietenCompetities.splice(index, 1);
                     }
                 }
-                localStorage.setItem('favorieten', JSON.stringify(favorieten));
-                console.log(favorieten);
+                localStorage.setItem('favorietenCompetities', JSON.stringify(favorietenCompetities));
+                console.log(favorietenCompetities);
             });
         
             image.addEventListener('click', function(){
