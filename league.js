@@ -17,6 +17,7 @@ const hamburgerItem = document.querySelectorAll('.mdc-list-item')
 const home = document.querySelector('.mdc-list-item:nth-child(2)')
 const body = document.querySelector('body')
 const main = document.querySelector('.main')
+const stand = document.querySelector('.stand')
 const mdcItem = document.querySelectorAll('.mdc-item')
 const stats = document.querySelector('.statistieken')
 const tableItem = document.querySelectorAll('.table-item')
@@ -62,7 +63,7 @@ title.textContent = decodeURIComponent(altTekst)
 
 mdcItem.forEach(function(element){
     let hasSameClass = false;
-    if (element.classList.contains('standings')) {
+    if (element.classList.contains('stand')) {
         hasSameClass = true;
         fetchLeagueStandings(leagueId);
     }
@@ -93,7 +94,7 @@ title.addEventListener('click', () => {
     })
     mdcItem.forEach(function(element){
         let hasSameClass = false;
-        if (element.classList.contains('standings')) {
+        if (element.classList.contains('stand')) {
             hasSameClass = true;
         }
         if (hasSameClass == true) {
@@ -191,7 +192,7 @@ function displayLeagueStandings(standings) {
         })
         tableLeague.appendChild(theadLeague)
         tableLeague.appendChild(tbodyLeague);
-        main.appendChild(tableLeague)
+        stand.appendChild(tableLeague)
     });
 }
 
