@@ -101,8 +101,11 @@ function favorieteCompetities(){
             const result = data.response;
             console.log(result)
 
+            console.log(favorietenCompetities)
+
             favorietenCompetities.forEach(function(id){
                 const favorieteCompetitie = result.find(response => response.league.id === id);
+                console.log(favorieteCompetitie)
                 if (favorieteCompetitie) {
                     competitieH2.textContent = "Favoriete Competities"
                     let li = document.createElement('li');
@@ -196,12 +199,12 @@ function favorieteWedstrijden(date){
             const result = data.response;
             console.log(result)
             console.log(favorietenWedstrijden)
+            tbody.innerHTML = ''
 
             favorietenWedstrijden.forEach(function(id){
                 const favorieteWedstrijd = result.filter(response => response.fixture.id === id);
                 if(favorieteWedstrijd){
                     console.log(favorieteWedstrijd)
-                    tbody.innerHTML = ''
 
                     favorieteWedstrijd.forEach(function(wedstrijd) {
                         const leagueName = wedstrijd.league.name;

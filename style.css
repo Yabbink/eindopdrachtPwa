@@ -258,7 +258,7 @@ main .my-image-list .mdc-image-list__item{
     margin-bottom: 20px;
     border-radius: 5px;
 }
-.match .match-table tr{
+.match .match-table tr, .wedstrijden .match-table tr{
     width: 90%;
 }
 .match-table tbody{
