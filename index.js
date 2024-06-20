@@ -108,135 +108,131 @@ async function wedstrijden(date) {
 const favorietenWedstrijden = JSON.parse(localStorage.getItem('favorietenWedstrijden')) || [];
 
 function toonWedstrijden(wedstrijden) {
-    tbodyMatch2.innerHTML = ''
-    const groupedMatches = [];
+    tbodyMatch2.innerHTML = '';
 
     wedstrijden.forEach(function(wedstrijd) {
-        const league = wedstrijd.league.name;
-        const round = wedstrijd.league.round;
-        let leagueGroup = groupedMatches.find(group => group.league === league && group.round === round);
-        if (!leagueGroup) {
-            leagueGroup = { league, round, matches: [] };
-            groupedMatches.push(leagueGroup);
-        }
-        leagueGroup.matches.push(wedstrijd);
-    });
+        const leagueName = wedstrijd.league.name;
+        const roundName = wedstrijd.league.round;
+        const groupKey = `${leagueName}-${roundName}`;
 
-    groupedMatches.forEach(function(group) {
-        const fixtureGroupDiv = document.createElement('div')
-        fixtureGroupDiv.classList.add('fixture-group')
+        let fixtureGroupDiv = document.querySelector(`.fixture-group[data-group-key="${groupKey}"]`);
+        
+        console.log(`.fixture-group[data-group-key="${groupKey}"]`)
 
-        const leagueName = document.createElement('h2');
-        leagueName.textContent = group.league;
+        if (!fixtureGroupDiv) {
+            fixtureGroupDiv = document.createElement('div');
+            fixtureGroupDiv.classList.add('fixture-group');
+            fixtureGroupDiv.setAttribute('data-group-key', groupKey);
 
-        const roundName = document.createElement('h2');
-        roundName.textContent = group.round;
+            const leagueNameH2 = document.createElement('h2');
+            leagueNameH2.textContent = leagueName;
 
-        fixtureGroupDiv.appendChild(leagueName)
-        fixtureGroupDiv.appendChild(roundName)
+            const roundNameH2 = document.createElement('h2');
+            roundNameH2.textContent = roundName;
 
-        const matches = group.matches
+            fixtureGroupDiv.appendChild(leagueNameH2);
+            fixtureGroupDiv.appendChild(roundNameH2);
 
-        matches.forEach(wedstrijd => {
-            const row = document.createElement('tr');
-
-            const stateCell = document.createElement('td');
-            stateCell.classList.add('state');
-            stateCell.textContent = wedstrijd.fixture.status.short;
-
-            const teamsCell = document.createElement('td');
-            const teamsDiv = document.createElement('div');
-            teamsDiv.classList.add('teams-info');
-            const team1Div = document.createElement('div');
-            team1Div.classList.add('team-info');
-            const team1Logo = document.createElement('img');
-            team1Logo.src = wedstrijd.teams.home.logo;
-            team1Logo.alt = `${wedstrijd.teams.home.name} logo`;
-            team1Logo.classList.add('team-logo');
-            const team1Name = document.createElement('p');
-            team1Name.textContent = wedstrijd.teams.home.name;
-
-            const team2Div = document.createElement('div');
-            team2Div.classList.add('team-info');
-            const team2Logo = document.createElement('img');
-            team2Logo.src = wedstrijd.teams.away.logo;
-            team2Logo.alt = `${wedstrijd.teams.away.name} logo`;
-            team2Logo.classList.add('team-logo');
-            const team2Name = document.createElement('p');
-            team2Name.textContent = wedstrijd.teams.away.name;
-
-            team1Div.appendChild(team1Logo);
-            team1Div.appendChild(team1Name);
-            teamsDiv.appendChild(team1Div);
-            team2Div.appendChild(team2Logo);
-            team2Div.appendChild(team2Name);
-            teamsDiv.appendChild(team2Div);
-            teamsCell.appendChild(teamsDiv);
-
-            const scoreCell = document.createElement('td');
-            const scoreDiv = document.createElement('div');
-            scoreDiv.classList.add('scores');
-            const team1Score = document.createElement('p');
-            team1Score.textContent = wedstrijd.goals.home;
-            const team2Score = document.createElement('p');
-            team2Score.textContent = wedstrijd.goals.away;
-            scoreDiv.appendChild(team1Score);
-            scoreDiv.appendChild(team2Score);
-            scoreCell.appendChild(scoreDiv);
-
-            const fixtureId = wedstrijd.fixture.id
-
-            const favorieteCell = document.createElement('td');
-            let svgNS = "http://www.w3.org/2000/svg";
-            let svg = document.createElementNS(svgNS, "svg");
-            svg.setAttribute("width", "24");
-            svg.setAttribute("height", "24");
-            svg.setAttribute("viewBox", "0 0 24 24");
-
-            let path = document.createElementNS(svgNS, "path");
-            path.setAttribute("d", "M12 .587l3.668 7.431 8.2 1.193-5.932 5.78 1.401 8.169L12 18.896 4.663 23.16l1.401-8.169L.132 9.211l8.2-1.193z");
-            path.setAttribute("stroke", "black");
-            path.setAttribute("stroke-width", "1");
-            
-            if(!favorietenWedstrijden.includes(fixtureId)){
-                path.setAttribute("fill", "white");
-            }else{
-                path.setAttribute("fill", "red");
-            }
-            
-            svg.appendChild(path);
-
-            svg.addEventListener('click', function(){
-                if (!favorietenWedstrijden.includes(fixtureId)) {
-                    path.setAttribute("fill", "red");
-                    favorietenWedstrijden.push(fixtureId);
-                } else {
-                    path.setAttribute("fill", "white");
-                    const index = favorietenWedstrijden.indexOf(fixtureId);
-                    if (index > -1) {
-                        favorietenWedstrijden.splice(index, 1);
-                    }
-                }
-                localStorage.setItem('favorietenWedstrijden', JSON.stringify(favorietenWedstrijden));
-                console.log(favorietenWedstrijden);
-            });
-
-            favorieteCell.appendChild(svg)
-
-            row.appendChild(stateCell);
-            row.appendChild(teamsCell);
-            row.appendChild(scoreCell);
-            row.appendChild(favorieteCell)
-            fixtureGroupDiv.appendChild(row);
             tbodyMatch2.appendChild(fixtureGroupDiv);
+        }
 
-            teamsCell.addEventListener('click', function(){
-                window.location.href = `uitslagen.html?id=${fixtureId}`;
-            })
+        const row = document.createElement('tr');
+
+        const stateCell = document.createElement('td');
+        stateCell.classList.add('state');
+        stateCell.textContent = wedstrijd.fixture.status.short;
+
+        const teamsCell = document.createElement('td');
+        const teamsDiv = document.createElement('div');
+        teamsDiv.classList.add('teams-info');
+        const team1Div = document.createElement('div');
+        team1Div.classList.add('team-info');
+        const team1Logo = document.createElement('img');
+        team1Logo.src = wedstrijd.teams.home.logo;
+        team1Logo.alt = `${wedstrijd.teams.home.name} logo`;
+        team1Logo.classList.add('team-logo');
+        const team1Name = document.createElement('p');
+        team1Name.textContent = wedstrijd.teams.home.name;
+
+        const team2Div = document.createElement('div');
+        team2Div.classList.add('team-info');
+        const team2Logo = document.createElement('img');
+        team2Logo.src = wedstrijd.teams.away.logo;
+        team2Logo.alt = `${wedstrijd.teams.away.name} logo`;
+        team2Logo.classList.add('team-logo');
+        const team2Name = document.createElement('p');
+        team2Name.textContent = wedstrijd.teams.away.name;
+
+        team1Div.appendChild(team1Logo);
+        team1Div.appendChild(team1Name);
+        teamsDiv.appendChild(team1Div);
+        team2Div.appendChild(team2Logo);
+        team2Div.appendChild(team2Name);
+        teamsDiv.appendChild(team2Div);
+        teamsCell.appendChild(teamsDiv);
+
+        const scoreCell = document.createElement('td');
+        const scoreDiv = document.createElement('div');
+        scoreDiv.classList.add('scores');
+        const team1Score = document.createElement('p');
+        team1Score.textContent = wedstrijd.goals.home;
+        const team2Score = document.createElement('p');
+        team2Score.textContent = wedstrijd.goals.away;
+        scoreDiv.appendChild(team1Score);
+        scoreDiv.appendChild(team2Score);
+        scoreCell.appendChild(scoreDiv);
+
+        const fixtureId = wedstrijd.fixture.id;
+
+        const favorieteCell = document.createElement('td');
+        let svgNS = "http://www.w3.org/2000/svg";
+        let svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("width", "24");
+        svg.setAttribute("height", "24");
+        svg.setAttribute("viewBox", "0 0 24 24");
+
+        let path = document.createElementNS(svgNS, "path");
+        path.setAttribute("d", "M12 .587l3.668 7.431 8.2 1.193-5.932 5.78 1.401 8.169L12 18.896 4.663 23.16l1.401-8.169L.132 9.211l8.2-1.193z");
+        path.setAttribute("stroke", "black");
+        path.setAttribute("stroke-width", "1");
+
+        if (!favorietenWedstrijden.includes(fixtureId)) {
+            path.setAttribute("fill", "white");
+        } else {
+            path.setAttribute("fill", "red");
+        }
+
+        svg.appendChild(path);
+
+        svg.addEventListener('click', function () {
+            if (!favorietenWedstrijden.includes(fixtureId)) {
+                path.setAttribute("fill", "red");
+                favorietenWedstrijden.push(fixtureId);
+            } else {
+                path.setAttribute("fill", "white");
+                const index = favorietenWedstrijden.indexOf(fixtureId);
+                if (index > -1) {
+                    favorietenWedstrijden.splice(index, 1);
+                }
+            }
+            localStorage.setItem('favorietenWedstrijden', JSON.stringify(favorietenWedstrijden));
+            console.log(favorietenWedstrijden);
         });
 
-        tableMatch2.appendChild(tbodyMatch2);
+        favorieteCell.appendChild(svg);
+
+        row.appendChild(stateCell);
+        row.appendChild(teamsCell);
+        row.appendChild(scoreCell);
+        row.appendChild(favorieteCell);
+        fixtureGroupDiv.appendChild(row);
+
+        teamsCell.addEventListener('click', function () {
+            window.location.href = `uitslagen.html?id=${fixtureId}`;
+        });
     });
+
+    tableMatch2.appendChild(tbodyMatch2);
 }
 
 wedstrijden()

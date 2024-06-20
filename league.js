@@ -185,7 +185,7 @@ function displayLeagueStandings(standings) {
             const lastOption = selectGroup.options[selectGroup.options.length - 1];
             lastOption.selected = true;
             const selectedOption = lastOption.value;
-            
+
             const standingGroup = document.querySelectorAll('.standing-group')
             standingGroup.forEach(function(element) {
                 element.classList.add('hidden');
@@ -216,13 +216,17 @@ function displayLeagueStandings(standings) {
         standings.forEach(function(group) {
             const standingGroupDiv = document.createElement('div')
             standingGroupDiv.classList.add('standing-group')
-            const groupName = document.createElement('h2');
+
+            if(standings.length > 1){
+                const groupName = document.createElement('h2');
     
-            group.forEach(function(team){
-                groupName.textContent = team.group;
-            })
-    
-            standingGroupDiv.appendChild(groupName)
+                group.forEach(function(team){
+                    groupName.textContent = team.group;
+                })
+        
+                standingGroupDiv.appendChild(groupName)
+            }
+            
             leagueStandings(group, standingGroupDiv)
         });
     }
@@ -412,22 +416,24 @@ function fetchLeagueMatches(leagueId) {
 }
 
 function displayLeagueMatches(matches) {
-    const fixturesByRound = new Map();
+    const fixturesByRound = {};
 
     matches.forEach(fixture => {
         const round = fixture.league.round;
         const fixtureDate = new Date(fixture.fixture.date).toLocaleDateString();
-        if (!fixturesByRound.has(round)) {
-            fixturesByRound.set(round, new Map());
+
+        if (!fixturesByRound[round]) {
+            fixturesByRound[round] = {};
         }
-        const roundMap = fixturesByRound.get(round);
-        if (!roundMap.has(fixtureDate)) {
-            roundMap.set(fixtureDate, []);
+
+        if (!fixturesByRound[round][fixtureDate]) {
+            fixturesByRound[round][fixtureDate] = [];
         }
-        roundMap.get(fixtureDate).push(fixture);
+
+        fixturesByRound[round][fixtureDate].push(fixture);
     });
 
-    fixturesByRound.forEach((dates, round) => {
+    for (const round in fixturesByRound) {
         const sanitizedRound = round.replace(/ /g, '-');
         const newOption = document.createElement('option');
         newOption.text = round;
@@ -441,13 +447,13 @@ function displayLeagueMatches(matches) {
         roundH2.textContent = round;
         fixtureGroupDiv.appendChild(roundH2);
 
-        dates.forEach((matchup, date) => {
+        for (const date in fixturesByRound[round]) {
             const dateP = document.createElement('p');
             dateP.classList.add('date');
             dateP.textContent = date;
             fixtureGroupDiv.appendChild(dateP);
 
-            matchup.forEach((match) => {
+            fixturesByRound[round][date].forEach(match => {
                 const row = document.createElement('tr');
 
                 const stateCell = document.createElement('td');
@@ -494,32 +500,41 @@ function displayLeagueMatches(matches) {
                 scoreDiv.appendChild(team2Score);
                 scoreCell.appendChild(scoreDiv);
 
-                const fixtureId = match.fixture.id
+                const fixtureId = match.fixture.id;
 
                 row.appendChild(stateCell);
                 row.appendChild(teamsCell);
                 row.appendChild(scoreCell);
                 fixtureGroupDiv.appendChild(row);
-                tbodyMatch.appendChild(fixtureGroupDiv)
+                tbodyMatch.appendChild(fixtureGroupDiv);
 
                 row.addEventListener('click', function(){
-                   window.location.href = `uitslagen.html?id=${fixtureId}`;
-                })
+                    window.location.href = `uitslagen.html?id=${fixtureId}`;
+                });
             });
-        });
+        }
 
-        tableMatch.appendChild(tbodyMatch)
-    });
-
+        tableMatch.appendChild(tbodyMatch);
+    }
+    
     if (speelrondeSelect.options.length > 1) {
         const lastOption = speelrondeSelect.options[speelrondeSelect.options.length - 1];
         lastOption.selected = true;
-        const selectedRound = lastOption.value;
-        document.querySelectorAll(`.${selectedRound}`).forEach(function(element) {
-            element.classList.remove('hidden');
+        const selectedOption = lastOption.value;
+    
+        const fixtureGroup = document.querySelectorAll('.fixture-group')
+        fixtureGroup.forEach(function(element) {
+            element.classList.add('hidden');
         });
+    
+        if (selectedOption) {
+            const groupClass = document.querySelectorAll(`.${selectedOption}`)
+            groupClass.forEach(function(element) {
+                element.classList.remove('hidden');
+            });
+        }
     }
-
+    
     speelrondeSelect.addEventListener('change', function() {
         const selectedRound = this.value;
         document.querySelectorAll('.fixture-group').forEach(function(element) {

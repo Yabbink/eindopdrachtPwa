@@ -123,6 +123,8 @@ main .my-image-list .mdc-image-list__item{
     width: 100%;
     border: 1px solid white;
     border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 .standings-table tr th, .standings-table tr td{
     font-family: Arial, Helvetica, sans-serif;
@@ -256,7 +258,7 @@ main .my-image-list .mdc-image-list__item{
     margin-bottom: 20px;
     border-radius: 5px;
 }
-.match-table tr{
+.match .match-table tr{
     width: 90%;
 }
 .match-table tbody{
