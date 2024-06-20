@@ -145,13 +145,45 @@ function fetchLeagueStandings(leagueId) {
 }
 
 function displayLeagueStandings(standings) {
-    standings.forEach(function(group) {
+
+    console.log("test")
+    console.log(standings)
+
+    if(standings.length > 1 && standings.length < 6){
+      const selectGroup = document.createElement('select')
+      selectGroup.classList.add('groep')
+
+      standings.forEach(function(group){
+        const option = document.createElement('option')
+        group.forEach(function(team){
+            const groepNaam = team.group
+            option.textContent = groepNaam
+            const naam = groepNaam.replace(/ /g, '-').replace(/:/g, '-');
+            option.value = naam
+        })
+        selectGroup.appendChild(option)
+      })
+
+      stand.appendChild(selectGroup)
+      
+      standings.forEach(function(group){
+        const standingGroupDiv = document.createElement('div')
+        standingGroupDiv.classList.add('standing-group')
+        const groupName = document.createElement('h2');
+        group.forEach(function(team){
+            const groepNaam = team.group
+            groupName.textContent = groepNaam;
+            const naam = groepNaam.replace(/ /g, '-').replace(/:/g, '-');
+            standingGroupDiv.classList.add(naam)
+        })
+        standingGroupDiv.appendChild(groupName)
+        
         const tableLeague = document.createElement('table')
         tableLeague.classList.add('standings-table')
         const theadLeague = document.createElement('thead')
         const headerRowLeague = document.createElement('tr')
         const tbodyLeague = document.createElement('tbody')
-
+    
         const headers = ['#', 'Team', 'P', 'DS', 'PTN'];
         headers.forEach(headerText => {
             const th = document.createElement('th');
@@ -159,7 +191,7 @@ function displayLeagueStandings(standings) {
             headerRowLeague.appendChild(th);
         });
         theadLeague.appendChild(headerRowLeague);
-        
+            
         group.forEach(function(team){
             const row = document.createElement('tr');
             const rankCell = document.createElement('td');
@@ -182,7 +214,7 @@ function displayLeagueStandings(standings) {
             goalDiffenceCell.textContent = team.goalsDiff
             const pointsCell = document.createElement('td')
             pointsCell.textContent = team.points
-                
+                    
             row.appendChild(rankCell);
             row.appendChild(teamCell);
             row.appendChild(matchesCell);
@@ -190,10 +222,87 @@ function displayLeagueStandings(standings) {
             row.appendChild(pointsCell)
             tbodyLeague.appendChild(row);
         })
-        tableLeague.appendChild(theadLeague)
-        tableLeague.appendChild(tbodyLeague);
-        stand.appendChild(tableLeague)
-    });
+        tableLeague.appendChild(theadLeague);
+        tableLeague.appendChild(tbodyLeague)
+        standingGroupDiv.appendChild(tableLeague)
+        stand.appendChild(standingGroupDiv)
+        })
+
+        selectGroup.addEventListener('change', function() {
+            const selectedOption = this.value;
+            const standingGroup = document.querySelectorAll('.standing-group')
+            standingGroup.forEach(function(element) {
+                element.classList.add('hidden');
+            });
+            if (selectedOption) {
+                const groupClass = document.querySelectorAll(`.${selectedOption}`)
+                groupClass.forEach(function(element) {
+                    element.classList.remove('hidden');
+                });
+            }
+        });
+    } else {
+        standings.forEach(function(group) {
+            const standingGroupDiv = document.createElement('div')
+            standingGroupDiv.classList.add('standing-group')
+            const groupName = document.createElement('h2');
+    
+            group.forEach(function(team){
+                groupName.textContent = team.group;
+            })
+    
+            standingGroupDiv.appendChild(groupName)
+    
+            const tableLeague = document.createElement('table')
+            tableLeague.classList.add('standings-table')
+            const theadLeague = document.createElement('thead')
+            const headerRowLeague = document.createElement('tr')
+            const tbodyLeague = document.createElement('tbody')
+    
+            const headers = ['#', 'Team', 'P', 'DS', 'PTN'];
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRowLeague.appendChild(th);
+            });
+            theadLeague.appendChild(headerRowLeague);
+            
+            group.forEach(function(team){
+                const row = document.createElement('tr');
+                const rankCell = document.createElement('td');
+                rankCell.textContent = team.rank;
+                const teamCell = document.createElement('td');
+                const teamDiv = document.createElement('div');
+                teamDiv.classList.add('team-info');
+                const teamLogo = document.createElement('img');
+                teamLogo.src = team.team.logo;
+                teamLogo.alt = team.team.name;
+                teamLogo.classList.add('team-logo');
+                const teamName = document.createElement('p');
+                teamName.textContent = team.team.name;
+                teamDiv.appendChild(teamLogo);
+                teamDiv.appendChild(teamName);
+                teamCell.appendChild(teamDiv);
+                const matchesCell = document.createElement('td');
+                matchesCell.textContent = team.all.played;
+                const goalDiffenceCell = document.createElement('td') 
+                goalDiffenceCell.textContent = team.goalsDiff
+                const pointsCell = document.createElement('td')
+                pointsCell.textContent = team.points
+                    
+                row.appendChild(rankCell);
+                row.appendChild(teamCell);
+                row.appendChild(matchesCell);
+                row.appendChild(goalDiffenceCell)
+                row.appendChild(pointsCell)
+                tbodyLeague.appendChild(row);
+            })
+            tableLeague.appendChild(theadLeague);
+            tableLeague.appendChild(tbodyLeague)
+            standingGroupDiv.appendChild(tableLeague)
+            stand.appendChild(standingGroupDiv)
+        });
+    }
 }
 
 function fetchTopStandings(leagueId, type) {
