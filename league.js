@@ -416,50 +416,48 @@ function fetchLeagueMatches(leagueId) {
 }
 
 function displayLeagueMatches(matches) {
-    const fixturesByRound = {};
+    const fixturesByRound = new Map();
 
-    matches.forEach(fixture => {
+    matches.forEach(function(fixture){
         const round = fixture.league.round;
         const fixtureDate = new Date(fixture.fixture.date).toLocaleDateString();
-
-        if (!fixturesByRound[round]) {
-            fixturesByRound[round] = {};
+        if (!fixturesByRound.has(round)) {
+            fixturesByRound.set(round, new Map());
         }
-
-        if (!fixturesByRound[round][fixtureDate]) {
-            fixturesByRound[round][fixtureDate] = [];
+        const roundMap = fixturesByRound.get(round);
+        if (!roundMap.has(fixtureDate)) {
+            roundMap.set(fixtureDate, []);
         }
-
-        fixturesByRound[round][fixtureDate].push(fixture);
+        roundMap.get(fixtureDate).push(fixture);
     });
-
-    for (const round in fixturesByRound) {
+    
+    fixturesByRound.forEach(function(dates, round){
         const sanitizedRound = round.replace(/ /g, '-');
         const newOption = document.createElement('option');
         newOption.text = round;
         newOption.value = sanitizedRound;
         speelrondeSelect.add(newOption);
-
+    
         const fixtureGroupDiv = document.createElement('div');
         fixtureGroupDiv.classList.add('fixture-group', 'hidden', sanitizedRound);
-
+    
         const roundH2 = document.createElement('h2');
         roundH2.textContent = round;
         fixtureGroupDiv.appendChild(roundH2);
-
-        for (const date in fixturesByRound[round]) {
+    
+        dates.forEach((matchup, date) => {
             const dateP = document.createElement('p');
             dateP.classList.add('date');
             dateP.textContent = date;
             fixtureGroupDiv.appendChild(dateP);
-
-            fixturesByRound[round][date].forEach(match => {
+    
+            matchup.forEach(function(match) {
                 const row = document.createElement('tr');
-
+    
                 const stateCell = document.createElement('td');
                 stateCell.classList.add('state');
                 stateCell.textContent = match.fixture.status.short;
-
+    
                 const teamsCell = document.createElement('td');
                 const teamsDiv = document.createElement('div');
                 teamsDiv.classList.add('teams-info');
@@ -471,7 +469,7 @@ function displayLeagueMatches(matches) {
                 team1Logo.classList.add('team-logo');
                 const team1Name = document.createElement('p');
                 team1Name.textContent = match.teams.home.name;
-
+    
                 const team2Div = document.createElement('div');
                 team2Div.classList.add('team-info');
                 const team2Logo = document.createElement('img');
@@ -480,7 +478,7 @@ function displayLeagueMatches(matches) {
                 team2Logo.classList.add('team-logo');
                 const team2Name = document.createElement('p');
                 team2Name.textContent = match.teams.away.name;
-
+    
                 team1Div.appendChild(team1Logo);
                 team1Div.appendChild(team1Name);
                 teamsDiv.appendChild(team1Div);
@@ -488,7 +486,7 @@ function displayLeagueMatches(matches) {
                 team2Div.appendChild(team2Name);
                 teamsDiv.appendChild(team2Div);
                 teamsCell.appendChild(teamsDiv);
-
+    
                 const scoreCell = document.createElement('td');
                 const scoreDiv = document.createElement('div');
                 scoreDiv.classList.add('scores');
@@ -499,23 +497,22 @@ function displayLeagueMatches(matches) {
                 scoreDiv.appendChild(team1Score);
                 scoreDiv.appendChild(team2Score);
                 scoreCell.appendChild(scoreDiv);
-
-                const fixtureId = match.fixture.id;
-
+    
+                const fixtureId = match.fixture.id
+    
                 row.appendChild(stateCell);
                 row.appendChild(teamsCell);
                 row.appendChild(scoreCell);
                 fixtureGroupDiv.appendChild(row);
-                tbodyMatch.appendChild(fixtureGroupDiv);
-
+                tbodyMatch.appendChild(fixtureGroupDiv)
+    
                 row.addEventListener('click', function(){
-                    window.location.href = `uitslagen.html?id=${fixtureId}`;
-                });
+                   window.location.href = `uitslagen.html?id=${fixtureId}`;
+                })
             });
-        }
-
-        tableMatch.appendChild(tbodyMatch);
-    }
+        });
+        tableMatch.appendChild(tbodyMatch)
+    });
     
     if (speelrondeSelect.options.length > 1) {
         const lastOption = speelrondeSelect.options[speelrondeSelect.options.length - 1];
