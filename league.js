@@ -10,6 +10,7 @@ backIcon.addEventListener('click', () => {
 const tabBarElement = document.querySelector('.mdc-tab-bar')
 const tabBar = new MDCTabBar(tabBarElement);
 
+const image = document.querySelector('.mdc-top-app-bar__image')
 const title = document.querySelector('.mdc-top-app-bar__title')
 const item = document.querySelectorAll('.mdc-tab')
 const item2 = document.querySelectorAll('.mdc-tab-indicator')
@@ -44,6 +45,24 @@ const tableMatch = document.querySelector('.match-table')
 const tbodyMatch = document.querySelector('.match-table tbody')
 const speelrondeSelect = document.querySelector('.speelronde')
 
+function setActiveLink() {
+    const currentPage = title.textContent.trim();
+    console.log(currentPage)
+    hamburgerItem.forEach(function(button) {
+        if (button.textContent.trim() === currentPage) {
+            button.classList.add('mdc-list-item--activated');
+        } else {
+            button.classList.remove('mdc-list-item--activated');
+        }
+    });
+}
+
+setActiveLink()
+
+hamburgerItem.forEach(function(button) {
+    button.addEventListener('click', setActiveLink);
+});
+
 item.forEach(function(button){
     button.addEventListener('click', () => {
         const text = button.querySelector('.mdc-tab__text-label').textContent
@@ -58,7 +77,10 @@ item.forEach(function(button){
 
 const urlParams = new URLSearchParams(window.location.search);
 const leagueId = urlParams.get('id');
+const src = urlParams.get('src')
+console.log(src)
 const altTekst = urlParams.get('alt');
+image.src = decodeURIComponent(src)
 title.textContent = decodeURIComponent(altTekst)
 
 mdcItem.forEach(function(element){
@@ -103,26 +125,15 @@ title.addEventListener('click', () => {
     })
 })
 
-function setActiveLink() {
-    const currentPage = title.textContent.trim();
-    console.log(currentPage)
-    hamburgerItem.forEach(function(button) {
-        if (button.textContent.trim() === currentPage) {
-            button.classList.add('mdc-list-item--activated');
-        } else {
-            button.classList.remove('mdc-list-item--activated');
-        }
-    });
-}
-
-setActiveLink()
-
-hamburgerItem.forEach(function(button) {
-    button.addEventListener('click', setActiveLink);
-});
-
 function fetchLeagueStandings(leagueId) {
-    fetch(`https://api-football-v1.p.rapidapi.com/v3/standings?league=${leagueId}&season=2023`, {
+    let season = 0;
+    if(title.textContent.includes("Euro")){
+        season = 2024
+    }
+    else{
+        season = 2023
+    }
+    fetch(`https://api-football-v1.p.rapidapi.com/v3/standings?league=${leagueId}&season=${season}`, {
         method: 'GET',
         headers: {
             'X-RapidAPI-Key': '862ebac7f9msh969c479e23695a1p15ea43jsn5ad4cf9b18cd',
@@ -416,48 +427,50 @@ function fetchLeagueMatches(leagueId) {
 }
 
 function displayLeagueMatches(matches) {
-    const fixturesByRound = new Map();
+    const fixturesByRound = {};
 
     matches.forEach(function(fixture){
         const round = fixture.league.round;
         const fixtureDate = new Date(fixture.fixture.date).toLocaleDateString();
-        if (!fixturesByRound.has(round)) {
-            fixturesByRound.set(round, new Map());
+
+        if (!fixturesByRound[round]) {
+            fixturesByRound[round] = {};
         }
-        const roundMap = fixturesByRound.get(round);
-        if (!roundMap.has(fixtureDate)) {
-            roundMap.set(fixtureDate, []);
+
+        if (!fixturesByRound[round][fixtureDate]) {
+            fixturesByRound[round][fixtureDate] = [];
         }
-        roundMap.get(fixtureDate).push(fixture);
+
+        fixturesByRound[round][fixtureDate].push(fixture);
     });
-    
-    fixturesByRound.forEach(function(dates, round){
+
+    for (const round in fixturesByRound) {
         const sanitizedRound = round.replace(/ /g, '-');
         const newOption = document.createElement('option');
         newOption.text = round;
         newOption.value = sanitizedRound;
         speelrondeSelect.add(newOption);
-    
+
         const fixtureGroupDiv = document.createElement('div');
         fixtureGroupDiv.classList.add('fixture-group', 'hidden', sanitizedRound);
-    
+
         const roundH2 = document.createElement('h2');
         roundH2.textContent = round;
         fixtureGroupDiv.appendChild(roundH2);
-    
-        dates.forEach((matchup, date) => {
+
+        for (const date in fixturesByRound[round]) {
             const dateP = document.createElement('p');
             dateP.classList.add('date');
             dateP.textContent = date;
             fixtureGroupDiv.appendChild(dateP);
-    
-            matchup.forEach(function(match) {
+
+            fixturesByRound[round][date].forEach(match => {
                 const row = document.createElement('tr');
-    
+
                 const stateCell = document.createElement('td');
                 stateCell.classList.add('state');
                 stateCell.textContent = match.fixture.status.short;
-    
+
                 const teamsCell = document.createElement('td');
                 const teamsDiv = document.createElement('div');
                 teamsDiv.classList.add('teams-info');
@@ -469,7 +482,7 @@ function displayLeagueMatches(matches) {
                 team1Logo.classList.add('team-logo');
                 const team1Name = document.createElement('p');
                 team1Name.textContent = match.teams.home.name;
-    
+
                 const team2Div = document.createElement('div');
                 team2Div.classList.add('team-info');
                 const team2Logo = document.createElement('img');
@@ -478,7 +491,7 @@ function displayLeagueMatches(matches) {
                 team2Logo.classList.add('team-logo');
                 const team2Name = document.createElement('p');
                 team2Name.textContent = match.teams.away.name;
-    
+
                 team1Div.appendChild(team1Logo);
                 team1Div.appendChild(team1Name);
                 teamsDiv.appendChild(team1Div);
@@ -486,7 +499,7 @@ function displayLeagueMatches(matches) {
                 team2Div.appendChild(team2Name);
                 teamsDiv.appendChild(team2Div);
                 teamsCell.appendChild(teamsDiv);
-    
+
                 const scoreCell = document.createElement('td');
                 const scoreDiv = document.createElement('div');
                 scoreDiv.classList.add('scores');
@@ -497,22 +510,23 @@ function displayLeagueMatches(matches) {
                 scoreDiv.appendChild(team1Score);
                 scoreDiv.appendChild(team2Score);
                 scoreCell.appendChild(scoreDiv);
-    
-                const fixtureId = match.fixture.id
-    
+
+                const fixtureId = match.fixture.id;
+
                 row.appendChild(stateCell);
                 row.appendChild(teamsCell);
                 row.appendChild(scoreCell);
                 fixtureGroupDiv.appendChild(row);
-                tbodyMatch.appendChild(fixtureGroupDiv)
-    
+                tbodyMatch.appendChild(fixtureGroupDiv);
+
                 row.addEventListener('click', function(){
-                   window.location.href = `uitslagen.html?id=${fixtureId}`;
-                })
+                    window.location.href = `uitslagen.html?id=${fixtureId}`;
+                });
             });
-        });
-        tableMatch.appendChild(tbodyMatch)
-    });
+        }
+
+        tableMatch.appendChild(tbodyMatch);
+    }
     
     if (speelrondeSelect.options.length > 1) {
         const lastOption = speelrondeSelect.options[speelrondeSelect.options.length - 1];

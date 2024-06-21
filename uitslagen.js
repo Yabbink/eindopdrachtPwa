@@ -97,6 +97,19 @@ function toonWedstrijd(match){
        bank.style.display = "none"
        bench.style.display = "none"
        trainer.style.display = "none"
+       trainer.style.margin.top = "0px"
+       coach.style.display = "none"
+    }
+    else if(fixture.events.length == 0){
+       gebeurtenissen.style.display = "none"
+       matchEvent.style.display = "none"
+    }
+    else if(fixture.lineups.length == 0){
+       opstellingen.style.display = "none"
+       lineUp.style.display = "none"
+       bank.style.display = "none"
+       bench.style.display = "none"
+       trainer.style.display = "none"
        coach.style.display = "none"
     }
 

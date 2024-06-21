@@ -132,9 +132,11 @@ function zoekCompetitie(){
         
             image.addEventListener('click', function(){
                 if (image) {
+                    const src = image.src;
+                    console.log(src)
                     const altTekst = image.alt;
                     console.log(altTekst);
-                    window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}`;
+                    window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}`;
                 }
             });
         });

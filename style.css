@@ -14,6 +14,9 @@ body.active{
 .mdc-top-app-bar{
     background-color: var(--mdc-theme-primary);
 }
+.mdc-top-app-bar .mdc-top-app-bar__image{
+    width: 30px;
+}
 .mdc-list-item img{
     width: 100%;
     height: 100%;
@@ -305,6 +308,7 @@ main .gebeurtenissen, main .opstelling, main .bank, main .trainer, main .info{
 }
 .wedstrijdInfo{
     flex-direction: column;
+    margin-bottom: 20px;
 }
 .wedstrijd2{
     width: 100%;
