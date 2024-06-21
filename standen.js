@@ -136,7 +136,18 @@ function zoekCompetitie(){
                     console.log(src)
                     const altTekst = image.alt;
                     console.log(altTekst);
-                    window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}`;
+                    const type = response.league.type
+                    console.log(type)
+                    const seasons = response.seasons
+                    let year = 0
+                    seasons.forEach(function(season){
+                        console.log(season)
+                        if(season.current == true){
+                            year = season.year
+                        }
+                    })
+                    console.log(year)
+                    window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}&type=${encodeURIComponent(type)}&season=${encodeURIComponent(year)}`;
                 }
             });
         });

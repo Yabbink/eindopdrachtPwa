@@ -82,6 +82,10 @@ console.log(src)
 const altTekst = urlParams.get('alt');
 image.src = decodeURIComponent(src)
 title.textContent = decodeURIComponent(altTekst)
+const type = urlParams.get('type')
+console.log(type)
+let season = urlParams.get('season')
+console.log(season)
 
 mdcItem.forEach(function(element){
     let hasSameClass = false;
@@ -125,14 +129,8 @@ title.addEventListener('click', () => {
     })
 })
 
+
 function fetchLeagueStandings(leagueId) {
-    let season = 0;
-    if(title.textContent.includes("Euro")){
-        season = 2024
-    }
-    else{
-        season = 2023
-    }
     fetch(`https://api-football-v1.p.rapidapi.com/v3/standings?league=${leagueId}&season=${season}`, {
         method: 'GET',
         headers: {
@@ -308,7 +306,7 @@ function fetchTopStandings(leagueId, type) {
         throw new Error('Invalid type');
     }
 
-    fetch(`https://api-football-v1.p.rapidapi.com/v3/players/${endpoint}?league=${leagueId}&season=2023`, {
+    fetch(`https://api-football-v1.p.rapidapi.com/v3/players/${endpoint}?league=${leagueId}&season=${season}`, {
         method: 'GET',
         headers: {
             'X-RapidAPI-Key': '862ebac7f9msh969c479e23695a1p15ea43jsn5ad4cf9b18cd',
@@ -403,7 +401,7 @@ function displayTopStandings(standings, type) {
 }
 
 function fetchLeagueMatches(leagueId) {
-    fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${leagueId}&season=2023`, {
+    fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${leagueId}&season=${season}`, {
         method: 'GET',
         headers: {
             'X-RapidAPI-Key': '862ebac7f9msh969c479e23695a1p15ea43jsn5ad4cf9b18cd',
