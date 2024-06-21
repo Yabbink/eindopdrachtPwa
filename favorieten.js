@@ -151,9 +151,21 @@ function favorieteCompetities(){
 
                     image.addEventListener('click', function(){
                         if (image) {
+                            const leagueId = favorieteCompetitie.league.id
+                            const src = image.src;
+                            console.log(src)
                             const altTekst = image.alt;
                             console.log(altTekst);
-                            window.location.href = `league.html?id=${id}&alt=${encodeURIComponent(altTekst)}`;
+                            const seasons = favorieteCompetitie.seasons
+                            let year = 0
+                            seasons.forEach(function(season){
+                                console.log(season)
+                                if(season.current == true){
+                                    year = season.year
+                                }
+                            })
+                            console.log(year)
+                            window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}&season=${encodeURIComponent(year)}`;
                         }
                     });
                 }
@@ -205,6 +217,7 @@ function favorieteWedstrijden(date){
                 const favorieteWedstrijd = result.filter(response => response.fixture.id === id);
                 if(favorieteWedstrijd){
                     console.log(favorieteWedstrijd)
+                    wedstrijdH2.textContent = "Favoriete Wedstrijden"
 
                     favorieteWedstrijd.forEach(function(wedstrijd) {
                         const leagueName = wedstrijd.league.name;

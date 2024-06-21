@@ -286,9 +286,12 @@ function toonWedstrijd(match){
 
     let leagueId = fixture.league.id
     let leagueName = fixture.league.name
+    let logo = fixture.league.logo
+    const season = fixture.league.season
+    console.log(fixture.league.season)
 
     wedstrijdInfo.textContent = "Wedstrijdinfo"
-    competitieLink.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(leagueName)}`
+    competitieLink.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(leagueName)}&src=${encodeURIComponent(logo)}&season=${season}`;
     competitieP.textContent = leagueName
     stadionP.textContent = fixture.fixture.venue.name
     abitrageP.textContent = fixture.fixture.referee

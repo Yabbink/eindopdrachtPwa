@@ -105,9 +105,8 @@ async function wedstrijden(date) {
     }
 }
 
-const favorietenWedstrijden = JSON.parse(localStorage.getItem('favorietenWedstrijden')) || [];
-
 function toonWedstrijden(wedstrijden) {
+    const favorietenWedstrijden = JSON.parse(localStorage.getItem('favorietenWedstrijden')) || [];
     tbodyMatch2.innerHTML = '';
 
     wedstrijden.forEach(function(wedstrijd) {

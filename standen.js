@@ -136,8 +136,6 @@ function zoekCompetitie(){
                     console.log(src)
                     const altTekst = image.alt;
                     console.log(altTekst);
-                    const type = response.league.type
-                    console.log(type)
                     const seasons = response.seasons
                     let year = 0
                     seasons.forEach(function(season){
@@ -147,7 +145,7 @@ function zoekCompetitie(){
                         }
                     })
                     console.log(year)
-                    window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}&type=${encodeURIComponent(type)}&season=${encodeURIComponent(year)}`;
+                    window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}&season=${encodeURIComponent(year)}`;
                 }
             });
         });

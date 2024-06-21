@@ -433,6 +433,10 @@ main .gebeurtenissen, main .opstelling, main .bank, main .trainer, main .info{
     flex-direction: column;
     align-items: center;
 }
+.favorieten{
+    font-size: 28px;
+    text-align: center;
+}
 .mdc-drawer__content{
     background-color: var(--mdc-theme-background);
 }

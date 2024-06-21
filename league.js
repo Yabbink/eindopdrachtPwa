@@ -82,8 +82,6 @@ console.log(src)
 const altTekst = urlParams.get('alt');
 image.src = decodeURIComponent(src)
 title.textContent = decodeURIComponent(altTekst)
-const type = urlParams.get('type')
-console.log(type)
 let season = urlParams.get('season')
 console.log(season)
 
