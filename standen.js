@@ -143,6 +143,9 @@ function zoekCompetitie(){
                         if(season.current == true){
                             year = season.year
                         }
+                        if(season.current = true && season.coverage.standings == false){
+                            year = 2023
+                        }
                     })
                     console.log(year)
                     window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}&season=${encodeURIComponent(year)}`;

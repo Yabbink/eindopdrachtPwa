@@ -524,7 +524,7 @@ function displayLeagueMatches(matches) {
         tableMatch.appendChild(tbodyMatch);
     }
     
-    if (speelrondeSelect.options.length > 1) {
+    if (speelrondeSelect.options.length >= 1) {
         const lastOption = speelrondeSelect.options[speelrondeSelect.options.length - 1];
         lastOption.selected = true;
         const selectedOption = lastOption.value;
