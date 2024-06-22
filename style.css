@@ -67,6 +67,7 @@ main .my-image-list .mdc-image-list__item{
 }
 .mdc-image-list__item .mdc-image-list__paragraph{
     color: black;
+    text-align: center;
 }
 .mdc-image-list__item svg{
     margin-bottom: 10px;

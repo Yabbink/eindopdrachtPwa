@@ -212,11 +212,13 @@ function favorieteWedstrijden(date){
             console.log(result)
             console.log(favorietenWedstrijden)
             tbody.innerHTML = ''
+            let found = false;
 
             favorietenWedstrijden.forEach(function(id){
                 const favorieteWedstrijd = result.filter(response => response.fixture.id === id);
-                if(favorieteWedstrijd){
+                if(favorieteWedstrijd.length > 0){
                     console.log(favorieteWedstrijd)
+                    found = true
                     wedstrijdH2.textContent = "Favoriete Wedstrijden"
 
                     favorieteWedstrijd.forEach(function(wedstrijd) {
@@ -304,27 +306,17 @@ function favorieteWedstrijden(date){
                         path.setAttribute("d", "M12 .587l3.668 7.431 8.2 1.193-5.932 5.78 1.401 8.169L12 18.896 4.663 23.16l1.401-8.169L.132 9.211l8.2-1.193z");
                         path.setAttribute("stroke", "black");
                         path.setAttribute("stroke-width", "1");
-                
-                        if (!favorietenWedstrijden.includes(fixtureId)) {
-                            path.setAttribute("fill", "white");
-                        } else {
-                            path.setAttribute("fill", "red");
-                        }
+                        path.setAttribute("fill", "red");
                 
                         svg.appendChild(path);
                 
-                        svg.addEventListener('click', function () {
-                            if (!favorietenWedstrijden.includes(fixtureId)) {
-                                path.setAttribute("fill", "red");
-                                favorietenWedstrijden.push(fixtureId);
-                            } else {
+                        svg.addEventListener('click', function(){
+                            const index = favorietenWedstrijden.indexOf(id);
+                            if (index > -1) {
+                                favorietenWedstrijden.splice(index, 1);
+                                localStorage.setItem('favorietenWedstrijden', JSON.stringify(favorietenWedstrijden));
                                 path.setAttribute("fill", "white");
-                                const index = favorietenWedstrijden.indexOf(fixtureId);
-                                if (index > -1) {
-                                    favorietenWedstrijden.splice(index, 1);
-                                }
                             }
-                            localStorage.setItem('favorietenWedstrijden', JSON.stringify(favorietenWedstrijden));
                             console.log(favorietenWedstrijden);
                         });
                 
@@ -340,10 +332,12 @@ function favorieteWedstrijden(date){
                             window.location.href = `uitslagen.html?id=${fixtureId}`;
                         });
                     });
-                
                     table.appendChild(tbody);
                 }
             })
+            if (found == false) {
+                wedstrijdH2.textContent = "Op deze dag zijn er geen favoriete wedstrijden gevonden";
+            }
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);

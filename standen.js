@@ -137,18 +137,19 @@ function zoekCompetitie(){
                     const altTekst = image.alt;
                     console.log(altTekst);
                     const seasons = response.seasons
+                    console.log(response)
                     let year = 0
                     seasons.forEach(function(season){
                         console.log(season)
                         if(season.current == true){
                             year = season.year
                         }
-                        if(season.current = true && season.coverage.standings == false){
+                        if(season.current = true && season.coverage.fixtures.events == false){
                             year = 2023
                         }
                     })
                     console.log(year)
-                    window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}&season=${encodeURIComponent(year)}`;
+                    // window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}&season=${encodeURIComponent(year)}`;
                 }
             });
         });
