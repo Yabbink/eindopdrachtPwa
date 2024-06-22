@@ -46,6 +46,14 @@ hamburgerItem.forEach(function(button) {
     button.addEventListener('click', setActiveLink);
 });
 
+function getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 function zoekCompetitie(){
     const favorietenCompetities = JSON.parse(localStorage.getItem('favorietenCompetities')) || [];
     const naam = leagueField.value.toLowerCase();
@@ -144,8 +152,8 @@ function zoekCompetitie(){
                         if(season.current == true){
                             year = season.year
                         }
-                        if(season.current = true && season.coverage.fixtures.events == false){
-                            year = 2023
+                        if(season.current == true && season.coverage.fixtures.events == false){
+                            year = season.year - 1
                         }
                     })
                     console.log(year)
