@@ -161,7 +161,7 @@ function zoekCompetitie(){
                         }
                     })
                     console.log(year)
-                    // window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}&season=${encodeURIComponent(year)}`;
+                    window.location.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(altTekst)}&src=${encodeURIComponent(src)}&season=${encodeURIComponent(year)}`;
                 }
             });
         });
