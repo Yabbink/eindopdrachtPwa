@@ -45,14 +45,6 @@ hamburgerItem.forEach(function(button) {
     button.addEventListener('click', setActiveLink);
 });
 
-function getCurrentDate() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
-
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -85,7 +77,10 @@ async function fetchWithRetry(url, options, retries = 3, backoff = 3000, maxBack
 
 async function wedstrijden(date) {
     if (!date) {
-        date = getCurrentDate();
+        let dateToday = new Date()
+        console.log(dateToday)
+        date = dateToday.toISOString().split('T')[0]; 
+        console.log(date)
     }
 
     try {
