@@ -27,6 +27,7 @@ const item = document.querySelectorAll('.mdc-tab')
 const mdcItem = document.querySelectorAll('.mdc-item')
 const leagueField = document.querySelector('.leagueField')
 const leagueSearch = document.querySelector('.leagueSearch')
+let ul = document.querySelector('.mdc-image-list'); 
 
 function setActiveLink() {
     const currentPage = title.textContent.trim();
@@ -64,6 +65,7 @@ function zoekCompetitie(){
     .then(data => {
         const result = data.response;
         console.log(result);
+        ul.innerHTML = ''
 
         result.forEach(function(response){
             if(response.league.name.toLowerCase().includes(naam)){
@@ -81,11 +83,9 @@ function zoekCompetitie(){
 
 const favorietenCompetities = JSON.parse(localStorage.getItem('favorietenCompetities')) || [];
 function laatCompetitieZien(response){
-    let ul = document.querySelector('.mdc-image-list'); 
-
     let li = document.createElement('li');
     li.classList.add('mdc-image-list__item');
-    
+
     let leagueId = response.league.id;  
         
     let svgNS = "http://www.w3.org/2000/svg";
