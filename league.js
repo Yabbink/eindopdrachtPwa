@@ -89,7 +89,7 @@ mdcItem.forEach(function(element){
     let hasSameClass = false;
     if (element.classList.contains('stand')) {
         hasSameClass = true;
-        fetchLeagueStandings(leagueId);
+        fetchCompetitieStanden(leagueId);
     }
     if (hasSameClass == false) {
         element.classList.add('hidden')
@@ -99,13 +99,13 @@ mdcItem.forEach(function(element){
             let tables = ['goals', 'assists', 'yellow', 'red']
             tables.forEach(function(statType) {
                 if (statDiv.classList.contains(statType)) {
-                    fetchTopStandings(leagueId, statType);
+                    fetchTopStanden(leagueId, statType);
                 }
             });
         });
     } 
     if(element.classList.contains('uitslagen')){
-        fetchLeagueMatches(leagueId)
+        fetchCompetitieWedstrijden(leagueId)
     }
 })
 
@@ -128,7 +128,7 @@ title.addEventListener('click', () => {
 })
 
 
-function fetchLeagueStandings(leagueId) {
+function fetchCompetitieStanden(leagueId) {
     fetch(`https://api-football-v1.p.rapidapi.com/v3/standings?league=${leagueId}&season=${season}`, {
         method: 'GET',
         headers: {
@@ -157,34 +157,34 @@ function displayLeagueStandings(standings) {
     console.log(standings)
 
     if(standings.length > 1 && standings.length < 6){
-      const selectGroup = document.createElement('select')
-      selectGroup.classList.add('groep')
+        const selectGroup = document.createElement('select')
+        selectGroup.classList.add('groep')
 
-      standings.forEach(function(group){
-        const option = document.createElement('option')
-        group.forEach(function(team){
-            const groepNaam = team.group
-            option.textContent = groepNaam
-            const naam = groepNaam.replace(/ /g, '-').replace(/:/g, '-');
-            option.value = naam
+        standings.forEach(function(group){
+            const option = document.createElement('option')
+            group.forEach(function(team){
+                const groepNaam = team.group
+                option.textContent = groepNaam
+                const naam = groepNaam.replace(/ /g, '-').replace(/:/g, '-');
+                option.value = naam
+            })
+            selectGroup.appendChild(option)
         })
-        selectGroup.appendChild(option)
-      })
 
-      stand.appendChild(selectGroup)
-      
-      standings.forEach(function(group){
-        const standingGroupDiv = document.createElement('div')
-        standingGroupDiv.classList.add('standing-group')
-        const groupName = document.createElement('h2');
-        group.forEach(function(team){
-            const groepNaam = team.group
-            groupName.textContent = groepNaam;
-            const naam = groepNaam.replace(/ /g, '-').replace(/:/g, '-');
-            standingGroupDiv.classList.add(naam)
-        })
-        standingGroupDiv.appendChild(groupName)
-        leagueStandings(group, standingGroupDiv)
+        stand.appendChild(selectGroup)
+        
+        standings.forEach(function(group){
+            const standingGroupDiv = document.createElement('div')
+            standingGroupDiv.classList.add('standing-group')
+            const groupName = document.createElement('h2');
+            group.forEach(function(team){
+                const groepNaam = team.group
+                groupName.textContent = groepNaam;
+                const naam = groepNaam.replace(/ /g, '-').replace(/:/g, '-');
+                standingGroupDiv.classList.add(naam)
+            })
+            standingGroupDiv.appendChild(groupName)
+            competitieStanden(group, standingGroupDiv)
         })
 
 
@@ -234,12 +234,12 @@ function displayLeagueStandings(standings) {
                 standingGroupDiv.appendChild(groupName)
             }
             
-            leagueStandings(group, standingGroupDiv)
+            competitieStanden(group, standingGroupDiv)
         });
     }
 }
 
-function leagueStandings(group, div){
+function competitieStanden(group, div){
     const tableLeague = document.createElement('table')
     tableLeague.classList.add('standings-table')
     const theadLeague = document.createElement('thead')
@@ -290,7 +290,7 @@ function leagueStandings(group, div){
     stand.appendChild(div)
 }
 
-function fetchTopStandings(leagueId, type) {
+function fetchTopStanden(leagueId, type) {
     let endpoint;
     if (type == 'goals') {
         endpoint = 'topscorers';
@@ -320,14 +320,14 @@ function fetchTopStandings(leagueId, type) {
     .then(data => {
         const result = data.response;
         console.log(result);
-        displayTopStandings(result, type);
+        laatTopStandenZien(result, type);
     })
     .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
     });
 }
 
-function displayTopStandings(standings, type) {
+function laatTopStandenZien(standings, type) {
     const top5 = standings.slice(0, 5);
     top5.forEach(function(player, index) {
         const row = document.createElement('tr');
@@ -398,7 +398,7 @@ function displayTopStandings(standings, type) {
     
 }
 
-function fetchLeagueMatches(leagueId) {
+function fetchCompetitieWedstrijden(leagueId) {
     fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${leagueId}&season=${season}`, {
         method: 'GET',
         headers: {
@@ -415,115 +415,128 @@ function fetchLeagueMatches(leagueId) {
     .then(data => {
         const result = data.response;
         console.log(result);
-        displayLeagueMatches(result);
+        laatWedstrijdenZien(result)
     })
     .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
     });
 }
 
-function displayLeagueMatches(matches) {
-    const fixturesByRound = {};
+function laatWedstrijdenZien(wedstrijden) {
+    wedstrijden.forEach(function(wedstrijd) {
+        console.log(wedstrijd)
 
-    matches.forEach(function(fixture){
-        const round = fixture.league.round;
-        const fixtureDate = new Date(fixture.fixture.date).toLocaleDateString();
+        const round = wedstrijd.league.round
 
-        if (!fixturesByRound[round]) {
-            fixturesByRound[round] = {};
+        let roundExists = false;
+        for (let i = 0; i < speelrondeSelect.options.length; i++) {
+            if (speelrondeSelect.options[i].value === round.replace(/ /g, '-')) {
+                roundExists = true;
+                break;
+            }
         }
 
-        if (!fixturesByRound[round][fixtureDate]) {
-            fixturesByRound[round][fixtureDate] = [];
+        if (!roundExists) {
+            const option = document.createElement('option');
+            option.textContent = round;
+            option.value = round.replace(/ /g, '-');
+            speelrondeSelect.appendChild(option);
         }
 
-        fixturesByRound[round][fixtureDate].push(fixture);
-    });
+        const date = new Date(wedstrijd.fixture.date);
 
-    for (const round in fixturesByRound) {
-        const sanitizedRound = round.replace(/ /g, '-');
-        const newOption = document.createElement('option');
-        newOption.text = round;
-        newOption.value = sanitizedRound;
-        speelrondeSelect.add(newOption);
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
 
-        const fixtureGroupDiv = document.createElement('div');
-        fixtureGroupDiv.classList.add('fixture-group', 'hidden', sanitizedRound);
+        const formattedDay = day < 10 ? `0${day}` : day;
+        const formattedMonth = month < 10 ? `0${month}` : month;
 
-        const roundH2 = document.createElement('h2');
-        roundH2.textContent = round;
-        fixtureGroupDiv.appendChild(roundH2);
+        const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
 
-        for (const date in fixturesByRound[round]) {
-            const dateP = document.createElement('p');
-            dateP.classList.add('date');
-            dateP.textContent = date;
+        const groupKey = `${round}-${formattedDate}`;
+
+        let fixtureGroupDiv = document.querySelector(`.fixture-group[data-group-key="${groupKey}"]`);
+        console.log(`.fixture-group[data-group-key="${groupKey}"]`)
+
+        if (!fixtureGroupDiv) {
+            fixtureGroupDiv = document.createElement('div');
+            fixtureGroupDiv.classList.add('fixture-group');
+            fixtureGroupDiv.classList.add(round.replace(/ /g, '-'));
+            fixtureGroupDiv.setAttribute('data-group-key', groupKey);
+
+            const roundNameH2 = document.createElement('h2');
+            roundNameH2.textContent = round;
+
+            const dateP = document.createElement('p')
+            dateP.textContent = formattedDate
+
+            fixtureGroupDiv.appendChild(roundNameH2);
             fixtureGroupDiv.appendChild(dateP);
 
-            fixturesByRound[round][date].forEach(match => {
-                const row = document.createElement('tr');
-
-                const stateCell = document.createElement('td');
-                stateCell.classList.add('state');
-                stateCell.textContent = match.fixture.status.short;
-
-                const teamsCell = document.createElement('td');
-                const teamsDiv = document.createElement('div');
-                teamsDiv.classList.add('teams-info');
-                const team1Div = document.createElement('div');
-                team1Div.classList.add('team-info');
-                const team1Logo = document.createElement('img');
-                team1Logo.src = match.teams.home.logo;
-                team1Logo.alt = `${match.teams.home.name} logo`;
-                team1Logo.classList.add('team-logo');
-                const team1Name = document.createElement('p');
-                team1Name.textContent = match.teams.home.name;
-
-                const team2Div = document.createElement('div');
-                team2Div.classList.add('team-info');
-                const team2Logo = document.createElement('img');
-                team2Logo.src = match.teams.away.logo;
-                team2Logo.alt = `${match.teams.away.name} logo`;
-                team2Logo.classList.add('team-logo');
-                const team2Name = document.createElement('p');
-                team2Name.textContent = match.teams.away.name;
-
-                team1Div.appendChild(team1Logo);
-                team1Div.appendChild(team1Name);
-                teamsDiv.appendChild(team1Div);
-                team2Div.appendChild(team2Logo);
-                team2Div.appendChild(team2Name);
-                teamsDiv.appendChild(team2Div);
-                teamsCell.appendChild(teamsDiv);
-
-                const scoreCell = document.createElement('td');
-                const scoreDiv = document.createElement('div');
-                scoreDiv.classList.add('scores');
-                const team1Score = document.createElement('p');
-                team1Score.textContent = match.goals.home;
-                const team2Score = document.createElement('p');
-                team2Score.textContent = match.goals.away;
-                scoreDiv.appendChild(team1Score);
-                scoreDiv.appendChild(team2Score);
-                scoreCell.appendChild(scoreDiv);
-
-                const fixtureId = match.fixture.id;
-
-                row.appendChild(stateCell);
-                row.appendChild(teamsCell);
-                row.appendChild(scoreCell);
-                fixtureGroupDiv.appendChild(row);
-                tbodyMatch.appendChild(fixtureGroupDiv);
-
-                row.addEventListener('click', function(){
-                    window.location.href = `uitslagen.html?id=${fixtureId}`;
-                });
-            });
+            tbodyMatch.appendChild(fixtureGroupDiv);
         }
 
-        tableMatch.appendChild(tbodyMatch);
-    }
-    
+        const row = document.createElement('tr');
+
+        const stateCell = document.createElement('td');
+        stateCell.classList.add('state');
+        stateCell.textContent = wedstrijd.fixture.status.short;
+
+        const teamsCell = document.createElement('td');
+        const teamsDiv = document.createElement('div');
+        teamsDiv.classList.add('teams-info');
+        const team1Div = document.createElement('div');
+        team1Div.classList.add('team-info');
+        const team1Logo = document.createElement('img');
+        team1Logo.src = wedstrijd.teams.home.logo;
+        team1Logo.alt = `${wedstrijd.teams.home.name} logo`;
+        team1Logo.classList.add('team-logo');
+        const team1Name = document.createElement('p');
+        team1Name.textContent = wedstrijd.teams.home.name;
+
+        const team2Div = document.createElement('div');
+        team2Div.classList.add('team-info');
+        const team2Logo = document.createElement('img');
+        team2Logo.src = wedstrijd.teams.away.logo;
+        team2Logo.alt = `${wedstrijd.teams.away.name} logo`;
+        team2Logo.classList.add('team-logo');
+        const team2Name = document.createElement('p');
+        team2Name.textContent = wedstrijd.teams.away.name;
+
+        team1Div.appendChild(team1Logo);
+        team1Div.appendChild(team1Name);
+        teamsDiv.appendChild(team1Div);
+        team2Div.appendChild(team2Logo);
+        team2Div.appendChild(team2Name);
+        teamsDiv.appendChild(team2Div);
+        teamsCell.appendChild(teamsDiv);
+
+        const scoreCell = document.createElement('td');
+        const scoreDiv = document.createElement('div');
+        scoreDiv.classList.add('scores');
+        const team1Score = document.createElement('p');
+        team1Score.textContent = wedstrijd.goals.home;
+        const team2Score = document.createElement('p');
+        team2Score.textContent = wedstrijd.goals.away;
+        scoreDiv.appendChild(team1Score);
+        scoreDiv.appendChild(team2Score);
+        scoreCell.appendChild(scoreDiv);
+
+        const fixtureId = wedstrijd.fixture.id;
+
+        row.appendChild(stateCell);
+        row.appendChild(teamsCell);
+        row.appendChild(scoreCell);
+        fixtureGroupDiv.appendChild(row);
+
+        teamsCell.addEventListener('click', function () {
+            window.location.href = `uitslagen.html?id=${fixtureId}`;
+        });
+    });
+
+    tableMatch.appendChild(tbodyMatch);
+
     if (speelrondeSelect.options.length >= 1) {
         const lastOption = speelrondeSelect.options[speelrondeSelect.options.length - 1];
         lastOption.selected = true;

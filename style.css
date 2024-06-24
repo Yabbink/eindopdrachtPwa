@@ -421,6 +421,12 @@ main .gebeurtenissen, main .opstelling, main .bank, main .trainer, main .info{
 .competitieInfo a{
     text-decoration: none;
     color: red;
+    display: flex;
+    gap: 10px;
+}
+.competitieInfo a img{
+    width: 30px;
+    object-fit: cover;
 }
 .competities{
     width: 100%;
