@@ -106,6 +106,9 @@ function zoekCompetitie() {
 
 // Functie om een competitie te tonen op de pagina
 function laatCompetitieZien(response) {
+    // Haal favoriete competities op uit localStorage, als er geen zijn, gebruik dan een lege array
+    const favorietenCompetities = JSON.parse(localStorage.getItem('favorietenCompetities')) || [];
+    
     // Maak een nieuw list item element aan
     let li = document.createElement('li');
     li.classList.add('mdc-image-list__item');

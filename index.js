@@ -120,7 +120,9 @@ async function wedstrijden(date) {
 
 // Functie om de wedstrijden te tonen
 function toonWedstrijden(wedstrijden) {
+    // Haal favoriete wedstrijden op uit localStorage, als er geen zijn, gebruik dan een lege array
     const favorietenWedstrijden = JSON.parse(localStorage.getItem('favorietenWedstrijden')) || [];
+    
     // maak eerst de tbody leeg zodat je echt alleen de wedstrijden van de gekozen dag ziet 
     tbodyMatch2.innerHTML = '';
 

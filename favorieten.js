@@ -107,6 +107,7 @@ mdcItem.forEach(function(element) {
 function favorieteCompetities() {
     // Haal favoriete competities op uit localStorage, als er geen zijn, gebruik dan een lege array
     const favorietenCompetities = JSON.parse(localStorage.getItem('favorietenCompetities')) || [];
+    
     // Maak de lijst leeg om te beginnen zodat er geen andere competities tevoorschijn komen
     ul.innerHTML = ''; 
 
