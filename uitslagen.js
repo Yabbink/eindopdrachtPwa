@@ -44,7 +44,6 @@ const coach = document.querySelector('.coach')
 const coachHome = document.querySelector('.coach .home-coach')
 const coachAway = document.querySelector('.coach .away-coach')
 const competitieLink = document.querySelector('.competitieInfo a')
-const competitieImage = document.querySelector('.competitieInfo a img')
 const competitieP = document.querySelector('.competitieInfo a p')
 const stadionP = document.querySelector('.stadionInfo p:nth-child(2)')
 const abitrageP = document.querySelector('.abitrageInfo p:nth-child(2)')
@@ -293,8 +292,6 @@ function toonWedstrijd(match){
 
     wedstrijdInfo.textContent = "Wedstrijdinfo"
     competitieLink.href = `league.html?id=${leagueId}&alt=${encodeURIComponent(leagueName)}&src=${encodeURIComponent(logo)}&season=${encodeURIComponent(season)}`;
-    competitieImage.src = logo
-    competitieImage.alt = `${leagueName} logo`
     competitieP.textContent = leagueName
     stadionP.textContent = fixture.fixture.venue.name
     abitrageP.textContent = fixture.fixture.referee
