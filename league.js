@@ -221,6 +221,27 @@ function displayLeagueStandings(standings) {
             competitieStanden(group, standingGroupDiv);
         });
 
+        // Zorg ervoor dat de laatst geselecteerde speelronde geselecteerd blijft na toevoegen van nieuwe opties
+        if (selectGroup.options.length >= 1) {
+            const lastOption = selectGroup.options[selectGroup.options.length - 1];
+            lastOption.selected = true;
+            const selectedOption = lastOption.value;
+
+            // Verberg alle wedstrijdgroepen
+            const standingGroup = document.querySelectorAll('.standing-group');
+            standingGroup.forEach(function(element) {
+                element.classList.add('hidden');
+            });
+
+            // Toon de geselecteerde speelronde
+            if (selectedOption) {
+                const groupClass = document.querySelectorAll(`.${selectedOption}`);
+                groupClass.forEach(function(element) {
+                    element.classList.remove('hidden');
+                });
+            }
+        }
+
         // Logica om de juiste groep standen te tonen op basis van geselecteerde optie in dropdown
         selectGroup.addEventListener('change', function() {
             const selectedOption = this.value;

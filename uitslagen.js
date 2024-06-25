@@ -228,7 +228,7 @@ function toonWedstrijd(match) {
           eventDiv2.appendChild(playerDiv);
           eventDiv2.appendChild(icon);
 
-          // Toevoegen van gebeurtenis aan het juiste teamsectie
+          // Toevoegen van gebeurtenis aan het de teamsectie
           if (event.team.name.includes(fixture.teams.home.name)) {
               matchEventHome.appendChild(eventDiv2);
           } else {
@@ -239,7 +239,7 @@ function toonWedstrijd(match) {
       console.log("hallo");
       console.log(fixture.lineups);
 
-      // Verwerken van opstellingen
+      // Verwerken van de opstellingen in de wedstrijd lijst
       const lineups = fixture.lineups;
       lineups.forEach(function(lineup) {
           console.log("hallo");
@@ -256,7 +256,7 @@ function toonWedstrijd(match) {
               playerDiv.appendChild(number);
               playerDiv.appendChild(playerName);
 
-              // Toevoegen van speler aan het juiste teamsectie
+              // Toevoegen van speler aan de juiste teamsectie
               if (lineup.team.name.includes(fixture.teams.home.name)) {
                   lineUpHome.appendChild(playerDiv);
               } else {
@@ -264,7 +264,7 @@ function toonWedstrijd(match) {
               }
           });
 
-          // Verwerken van bankspelers
+          // Verwerken van de bankspelers in de opstellingen lijst
           const bench = lineup.substitutes;
           bench.forEach(function(player) {
               console.log(player);
@@ -277,7 +277,7 @@ function toonWedstrijd(match) {
               playerDiv.appendChild(number);
               playerDiv.appendChild(playerName);
 
-              // Toevoegen van speler aan het juiste teamsectie
+              // Toevoegen van speler aan de juiste teamsectie
               if (lineup.team.name.includes(fixture.teams.home.name)) {
                   benchHome.appendChild(playerDiv);
               } else {
@@ -290,7 +290,7 @@ function toonWedstrijd(match) {
           const coachName = document.createElement('p');
           coachName.textContent = lineup.coach.name;
 
-          // Toevoegen van coach aan het juiste teamsectie
+          // Toevoegen van coach aan de juiste teamsectie
           if (lineup.team.name.includes(fixture.teams.home.name)) {
               coachHome.appendChild(coachName);
           } else {
@@ -298,7 +298,7 @@ function toonWedstrijd(match) {
           }
       });
 
-      // Opmaak van competitie-informatie
+      // Opmaak van competitie-informatie onderaan de pagina
       let leagueId = fixture.league.id;
       let leagueName = fixture.league.name;
       let logo = fixture.league.logo;
