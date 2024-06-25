@@ -66,6 +66,18 @@ item.forEach(function(button){
     })
 })
 
+title.addEventListener('click', () => {
+    item.forEach(function(element){
+        element.classList.remove('mdc-tab--active')
+    })
+    item2.forEach(function(element){
+        element.classList.remove('mdc-tab-indicator--active')
+    })
+    mdcItem.forEach(function(element){
+        element.classList.remove('hidden')
+    })
+})
+
 mdcItem.forEach(function(element){
     if(element.classList.contains('competities')){
         favorieteCompetities()
