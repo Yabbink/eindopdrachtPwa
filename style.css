@@ -176,6 +176,9 @@ main .my-image-list .mdc-image-list__item{
 }
 .statistieken .stats{
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .statistieken .stats h2{
     text-align: center;
