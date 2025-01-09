@@ -203,22 +203,22 @@ function toonWedstrijd(match) {
           const playerIn = document.createElement('p');
           playerIn.classList.add('playerIn');
           if (event.type.includes('Goal')) {
-              icon.src = "../eindopdrachtPwa/images/football-icon.svg";
+              icon.src = "images/football-icon.svg";
               icon.alt = "football";
               playerIn.style.display = "none";
           }
           if (event.detail.includes('Yellow')) {
-              icon.src = "../eindopdrachtPwa/images/yellow-icon.svg";
+              icon.src = "images/yellow-icon.svg";
               icon.alt = "yellow-card";
               playerIn.style.display = "none";
           }
           if (event.detail.includes('Red')) {
-              icon.src = "../eindopdrachtPwa/images/red-icon.svg";
+              icon.src = "images/red-icon.svg";
               icon.alt = "red-card";
               playerIn.style.display = "none";
           }
           if (event.type.includes('subst')) {
-              icon.src = "../eindopdrachtPwa/images/sub-icon.svg";
+              icon.src = "images/sub-icon.svg";
               icon.alt = "sub";
               playerIn.textContent += `in: ${event.assist.name}`;
           }
