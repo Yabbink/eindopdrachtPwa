@@ -383,6 +383,9 @@ main .gebeurtenissen, main .opstelling, main .bank, main .trainer, main .info{
 .material-symbols-outlined:first-child{
     margin-top: 10px;
 }
+.eigen-goal{
+    filter: invert(21%) sepia(87%) saturate(7491%) hue-rotate(340deg) brightness(94%) contrast(108%);
+}
 .playerDiv{
     width: 50%;
 }

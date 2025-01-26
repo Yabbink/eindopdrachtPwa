@@ -195,6 +195,10 @@ function toonWedstrijd(match) {
               playerEvent.textContent += `uit: ${event.player.name}`;
           } else {
               playerEvent.textContent += `${event.player.name} `;
+          } 
+          
+          if (event.detail.includes('Own Goal')) {
+              playerEvent.textContent += `${event.player.name} (ed)`;
           }
 
           // Toevoegen van iconen voor verschillende gebeurtenistypen
@@ -206,6 +210,10 @@ function toonWedstrijd(match) {
               icon.src = "images/football-icon.svg";
               icon.alt = "football";
               playerIn.style.display = "none";
+              if (event.detail.includes('Own Goal')){
+                console.log("er is een eigen doelpunt gescoord")
+                icon.classList.add('eigen-goal')
+              }
           }
           if (event.detail.includes('Yellow')) {
               icon.src = "images/yellow-icon.svg";
