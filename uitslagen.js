@@ -140,7 +140,11 @@ function toonWedstrijd(match) {
           }
           const player = document.createElement('p');
           player.classList.add('player');
-          player.textContent = event.player.name;
+          if (event.detail.includes('Own Goal')){
+            player.textContent = `${event.player.name} (e.d.)`;
+          } else {
+            player.textContent = event.player.name;
+          }
           eventDiv.appendChild(time);
           eventDiv.appendChild(player);
 
@@ -198,7 +202,7 @@ function toonWedstrijd(match) {
           } 
           
           if (event.detail.includes('Own Goal')) {
-              playerEvent.textContent += `${event.player.name} (ed)`;
+              playerEvent.textContent = `${event.player.name} (eigen doelpunt)`;
           }
 
           // Toevoegen van iconen voor verschillende gebeurtenistypen
